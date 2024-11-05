@@ -2,6 +2,8 @@ using System.Collections.Generic;
 
 using Assets.Scripts.Player.States;
 
+using UnityEditor;
+
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -9,6 +11,20 @@ namespace Assets.Scripts.Player
 {
     public class StateMachinePlayer : MonoBehaviour
     {
+
+        #region Unity Editor Properties
+        [Header("Speeds")]
+        public float currentSpeed = 0f;
+        public float walkSpeed = 3f;
+        public float dashSpeed = 6f;
+
+        [Header("Times")]
+        public float dashDuration = 0.2f;
+        public float dashCooldown = 2f;
+        // Il faut que la valeur d'init de chronoDashCooldown soit la même que dashCooldown pour éviter d'avoir un cooldown au lancement du jeu
+        [HideInInspector] public float chronoDashCooldown = 2f; 
+        #endregion
+
         #region Properties 
 
         /// <summary>
@@ -28,6 +44,16 @@ namespace Assets.Scripts.Player
         /// </summary>
         public State currentState;
 
+        [HideInInspector] public Rigidbody2D Rb2dPlayer => GetComponent<Rigidbody2D>();
+        [HideInInspector] public Vector2 MoveDirection;
+        [HideInInspector] public bool IsMoving => MoveDirection != Vector2.zero;
+        [HideInInspector] public bool IsAttacking;
+        [HideInInspector] public bool IsDead;
+        [HideInInspector] public bool IsHit;
+
+        [HideInInspector]public bool DashPressed;
+        [HideInInspector]public bool DashAvailable;
+        [HideInInspector] public bool CanDash => DashPressed && DashAvailable;
         #endregion
 
         #region MonoBehaviour 
@@ -48,12 +74,17 @@ namespace Assets.Scripts.Player
         // Update is called once per frame
         private void Update()
         {
-            currentState.OnUpdate();
+            currentState?.OnUpdate();
         }
 
         private void FixedUpdate()
         {
-            currentState.OnFixedUpdate();
+            currentState?.OnFixedUpdate();
+
+            Rb2dPlayer.linearVelocity = MoveDirection * currentSpeed;
+
+            chronoDashCooldown += Time.deltaTime;
+
         }
 
         private void OnCollisionEnter2D(Collision2D collision)
@@ -78,12 +109,59 @@ namespace Assets.Scripts.Player
 
         public void OnAttack(InputAction.CallbackContext context)
         {
+            if (context.phase == InputActionPhase.Performed)
+            {
+                IsAttacking = true;
+            }
+            else if (context.phase == InputActionPhase.Canceled)
+            {
+                IsAttacking = false;
+            }
         }
 
         public void OnMove(InputAction.CallbackContext context)
         {
+            if (context.phase == InputActionPhase.Performed)
+            {
+                MoveDirection = context.ReadValue<Vector2>();
+            }
+            else if (context.phase == InputActionPhase.Canceled)
+            {
+                MoveDirection = Vector2.zero;
+            }
+        }
+
+        public void OnDash(InputAction.CallbackContext context)
+        {
+            if (context.phase == InputActionPhase.Performed)
+            {
+                if (chronoDashCooldown > dashCooldown)
+                {
+                    DashPressed = true;
+                    chronoDashCooldown = 0f;
+                }
+            }
+            else if (context.phase == InputActionPhase.Canceled)
+            {
+                DashPressed = false;
+            }
         }
 
         #endregion
+
+        private void OnDrawGizmos()
+        {
+#if UNITY_EDITOR
+            Gizmos.color = Color.red;
+
+            if (currentState != null)
+                Handles.Label(new Vector2(-1, 1), currentState.ToString());
+
+            Handles.Label(new Vector2(-1, 5), Rb2dPlayer.linearVelocity.ToString());
+            Handles.Label(new Vector2(-1, 4), "DashPressed " + DashPressed.ToString());
+            Handles.Label(new Vector2(-1, 3), "DashAvailable " + DashAvailable.ToString());
+           
+#endif
+        }
     }
 }

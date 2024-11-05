@@ -1,6 +1,8 @@
 using Assets.Scripts.Player;
 using Assets.Scripts.Player.States;
 
+using Unity.VisualScripting;
+
 using UnityEngine;
 
 namespace Assets.Scripts.Player.States
@@ -11,12 +13,34 @@ namespace Assets.Scripts.Player.States
 
         public override void OnEnter()
         {
-
+            MachinePlayer.currentSpeed = MachinePlayer.walkSpeed;
         }
 
         public override void OnUpdate()
         {
-
+            if (MachinePlayer.IsDead)
+            {
+                MachinePlayer.ChangeState(StateMachinePlayer.STATE_DEAD);
+            }
+            else
+            {
+                if (MachinePlayer.DashPressed)
+                {
+                    MachinePlayer.ChangeState(StateMachinePlayer.STATE_DASH);
+                }
+                else if (!MachinePlayer.IsMoving)
+                {
+                    MachinePlayer.ChangeState(StateMachinePlayer.STATE_IDLE);
+                }
+                else if (MachinePlayer.IsAttacking)
+                {
+                    MachinePlayer.ChangeState(StateMachinePlayer.STATE_ATTACK);
+                }
+                else if (MachinePlayer.IsHit)
+                {
+                    MachinePlayer.ChangeState(StateMachinePlayer.STATE_HIT);
+                }
+            }
         }
 
         public override void OnExit()

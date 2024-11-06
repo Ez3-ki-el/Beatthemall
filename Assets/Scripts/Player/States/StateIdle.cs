@@ -34,10 +34,6 @@ namespace Assets.Scripts.Player.States
                 {
                     MachinePlayer.ChangeState(StateMachinePlayer.STATE_ATTACK);
                 }
-                else if (MachinePlayer.IsHit)
-                {
-                    MachinePlayer.ChangeState(StateMachinePlayer.STATE_HIT);
-                }
             }
         }
 

@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 
 using Assets.Scripts.Player.States;
@@ -24,13 +25,21 @@ namespace Assets.Scripts.Player
         public float dashCooldown = 2f;
         // Il faut que la valeur d'init de chronoDashCooldown soit la même que dashCooldown pour éviter d'avoir un cooldown au lancement du jeu
         [HideInInspector] public float chronoDashCooldown = 2f;
-
+        [HideInInspector] private float chronoHit = 0f;
         /// <summary>
         /// Représente le collider d'attack
         /// </summary>
         public GameObject AttackArea;
 
         public int LifePoints = 3;
+        /// <summary>
+        /// Détermine la durée durant laquelle le perso reste dans l'état 'Hit' après avoir pris un dégat
+        /// </summary>
+        public float HitDuration = 3f;
+
+        public SpriteRenderer SpritePlayer => GetComponentInChildren<SpriteRenderer>();
+
+        private Coroutine hitCoroutine;
         #endregion
 
         #region Properties 
@@ -43,7 +52,6 @@ namespace Assets.Scripts.Player
         public const string STATE_IDLE = nameof(StateIdle);
         public const string STATE_WALK = nameof(StateWalk);
         public const string STATE_DEAD = nameof(StateDead);
-        public const string STATE_HIT = nameof(StateHit);
         public const string STATE_ATTACK = nameof(StateAttack);
         public const string STATE_DASH = nameof(StateDash);
 
@@ -57,10 +65,10 @@ namespace Assets.Scripts.Player
         [HideInInspector] public bool IsMoving => MoveDirection != Vector2.zero;
         [HideInInspector] public bool IsAttacking;
         [HideInInspector] public bool IsDead;
-        [HideInInspector] public bool IsHit;
+        public bool IsHit;
 
-        [HideInInspector]public bool DashPressed;
-        [HideInInspector]public bool DashAvailable;
+        [HideInInspector] public bool DashPressed;
+        [HideInInspector] public bool DashAvailable;
         [HideInInspector] public bool CanDash => DashPressed && DashAvailable;
         #endregion
 
@@ -71,7 +79,6 @@ namespace Assets.Scripts.Player
         {
             _states.Add(STATE_IDLE, new StateIdle(this));
             _states.Add(STATE_WALK, new StateWalk(this));
-            _states.Add(STATE_HIT, new StateHit(this));
             _states.Add(STATE_ATTACK, new StateAttack(this));
             _states.Add(STATE_DEAD, new StateDead(this));
             _states.Add(STATE_DASH, new StateDash(this));
@@ -88,14 +95,79 @@ namespace Assets.Scripts.Player
         private void FixedUpdate()
         {
             currentState?.OnFixedUpdate();
-
             Rb2dPlayer.linearVelocity = MoveDirection * currentSpeed;
 
             // Gestion de la rotation du player
             RotatePlayer();
 
             chronoDashCooldown += Time.deltaTime;
+
+            HitOrNotHit();
         }
+
+        private IEnumerator CoroutineHit()
+        {
+            bool isRed = false;
+
+            while (chronoHit < HitDuration)
+            {
+                SpritePlayer.color = isRed ? Color.white : Color.red;
+                isRed = !isRed;
+                yield return new WaitForSeconds(0.2f);  // Temps de clignotement
+            }
+
+            SpritePlayer.color = Color.white;
+            hitCoroutine = null;
+        }
+
+        private void HitOrNotHit()
+        {
+            // Gestion du hit
+            if (IsHit)
+            {
+                if (chronoHit > HitDuration)
+                {
+                    IsHit = false;
+                    SpritePlayer.color = Color.white;
+                    chronoHit = 0f;
+                }
+                else
+                {
+                    chronoHit += Time.deltaTime;
+                    hitCoroutine ??= StartCoroutine(CoroutineHit());
+                }
+            }
+            else if (hitCoroutine != null)
+            {
+                StopCoroutine(hitCoroutine);
+                hitCoroutine = null;
+            }
+        }
+
+        private void Hit()
+        {
+            if (IsHit)
+            {
+                if (chronoHit > HitDuration)
+                {
+                    IsHit = false;
+                    SpritePlayer.color = Color.white;
+                    chronoHit = 0f;
+                }
+                else
+                {
+                    chronoHit += Time.deltaTime;
+                    hitCoroutine ??= StartCoroutine(CoroutineHit());
+                }
+            }
+            else if (hitCoroutine != null)
+            {
+                StopCoroutine(hitCoroutine);
+                hitCoroutine = null;
+            }
+        }
+
+
 
         private void OnCollisionEnter2D(Collision2D collision)
         {
@@ -106,15 +178,37 @@ namespace Assets.Scripts.Player
         {
             if (collision.CompareTag("EnemyAttack"))
             {
-                LifePoints--;
+                if (!IsHit)
+                {
+                    //Debug.Log("EnemyAttack on player");
+                    LifePoints--;
 
-                if (LifePoints <= 0)
-                {
-                    IsDead = true;
+                    if (LifePoints <= 0)
+                    {
+                        IsDead = true;
+                    }
+                    else
+                    {
+                        IsHit = true;
+                    }
                 }
-                else
+            }
+            // Même si le code AoeAttack est similaire à EnemyAttack, je laisse son if pour si on veut un étourdissement dû à l'aoe
+            else if (collision.CompareTag("AoeAttack"))
+            {
+                if (!IsHit)
                 {
-                    IsHit = true;
+                    //Debug.Log("Touched by aoe");
+                    LifePoints--;
+
+                    if (LifePoints <= 0)
+                    {
+                        IsDead = true;
+                    }
+                    else
+                    {
+                        IsHit = true;
+                    }
                 }
             }
         }
@@ -125,6 +219,7 @@ namespace Assets.Scripts.Player
 
         public void ChangeState(string stateName)
         {
+            Debug.Log("Changement de state pour : " + stateName);
             currentState?.OnExit();
             currentState = _states[stateName];
             currentState.OnEnter();
@@ -196,10 +291,7 @@ namespace Assets.Scripts.Player
             if (currentState != null)
                 Handles.Label(new Vector2(-1, 1), currentState.ToString());
 
-            Handles.Label(new Vector2(-1, 5), Rb2dPlayer.linearVelocity.ToString());
-            Handles.Label(new Vector2(-1, 4), "DashPressed " + DashPressed.ToString());
-            Handles.Label(new Vector2(-1, 3), "DashAvailable " + DashAvailable.ToString());
-           
+
 #endif
         }
     }

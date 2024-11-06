@@ -39,10 +39,6 @@ namespace Assets.Scripts.Enemies.CasualEnemy
                 {
                     MachineEnemy.ChangeState(StateMachineEnemy.STATE_WALK);
                 }
-                else if (MachineEnemy.IsHit)
-                {
-                    MachineEnemy.ChangeState(StateMachineEnemy.STATE_HIT);
-                }
             }
         }
 

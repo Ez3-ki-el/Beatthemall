@@ -37,10 +37,6 @@ namespace Assets.Scripts.Player.States
                 {
                     MachinePlayer.ChangeState(StateMachinePlayer.STATE_WALK);
                 }
-                else if (MachinePlayer.IsHit)
-                {
-                    MachinePlayer.ChangeState(StateMachinePlayer.STATE_HIT);
-                }
                 else if (MachinePlayer.DashPressed)
                 {
                     MachinePlayer.ChangeState(StateMachinePlayer.STATE_DASH);

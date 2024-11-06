@@ -22,7 +22,11 @@ namespace Assets.Scripts.Enemies.CasualEnemy
             }
             else
             {
-                if (MachineEnemy.DistanceToPlayer > MachineEnemy.AttackRange)
+                if (MachineEnemy.IsHit)
+                {
+                    MachineEnemy.ChangeState(StateMachinePlayer.STATE_HIT);
+                }
+                else if (MachineEnemy.DistanceToPlayerAggro > MachineEnemy.AttackRange)
                 {
                     MachineEnemy.ChangeState(StateMachinePlayer.STATE_WALK);
                 }
@@ -30,18 +34,6 @@ namespace Assets.Scripts.Enemies.CasualEnemy
                 {
                     MachineEnemy.ChangeState(StateMachinePlayer.STATE_ATTACK);
                 }
-                //if (MachineEnemy.IsMoving)
-                //{
-                //    MachineEnemy.ChangeState(StateMachinePlayer.STATE_WALK);
-                //}
-                //else if (MachineEnemy.IsAttacking)
-                //{
-                //    MachineEnemy.ChangeState(StateMachinePlayer.STATE_ATTACK);
-                //}
-                //else if (MachineEnemy.IsHit)
-                //{
-                //    MachineEnemy.ChangeState(StateMachinePlayer.STATE_HIT);
-                //}
             }
         }
 

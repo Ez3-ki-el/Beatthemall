@@ -3,7 +3,14 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 3
+<<<<<<< HEAD
   tags: []
+=======
+  tags:
+  - Player1Attack
+  - Player2Attack
+  - EnemyAttack
+>>>>>>> 5301786570c36dd1a2a26fa156ec104e734e7b7d
   layers:
   - Default
   - TransparentFX

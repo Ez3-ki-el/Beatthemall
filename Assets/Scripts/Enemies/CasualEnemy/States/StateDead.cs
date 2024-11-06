@@ -12,7 +12,7 @@ namespace Assets.Scripts.Enemies.CasualEnemy
 
         public override void OnEnter()
         {
-
+            MachineEnemy.IsDead = true;
         }
 
         public override void OnUpdate()

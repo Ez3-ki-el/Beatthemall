@@ -23,17 +23,17 @@ namespace Assets.Scripts.Enemies.CasualEnemy
             }
             else
             {
-                if (!MachineEnemy.IsMoving)
+                if (MachineEnemy.IsAttacking)
+                {
+                    MachineEnemy.ChangeState(StateMachineEnemy.STATE_ATTACK);
+                }
+                else if (!MachineEnemy.IsMoving)
                 {
                     MachineEnemy.ChangeState(StateMachineEnemy.STATE_IDLE);
                 }
-                if (MachineEnemy.IsMoving)
+                else if (MachineEnemy.IsMoving)
                 {
                     MachineEnemy.ChangeState(StateMachineEnemy.STATE_WALK);
-                }
-                else if (MachineEnemy.IsAttacking)
-                {
-                    MachineEnemy.ChangeState(StateMachineEnemy.STATE_ATTACK);
                 }
             }
         }

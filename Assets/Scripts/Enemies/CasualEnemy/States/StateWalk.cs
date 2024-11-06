@@ -30,7 +30,7 @@ namespace Assets.Scripts.Enemies.CasualEnemy
                 {
                     MachineEnemy.ChangeState(StateMachinePlayer.STATE_IDLE);
                 }
-                else if (MachineEnemy.IsAttacking)
+                else if (MachineEnemy.DistanceToPlayerAggro <= MachineEnemy.AttackRange)
                 {
                     MachineEnemy.ChangeState(StateMachinePlayer.STATE_ATTACK);
                 }
@@ -49,7 +49,7 @@ namespace Assets.Scripts.Enemies.CasualEnemy
         public override void OnFixedUpdate()
         {
             // Se déplacer vers le joueur
-            Vector2 direction = (MachineEnemy.PlayerTransform.position - MachineEnemy.transform.position).normalized;
+            Vector2 direction = (MachineEnemy.PlayerAggro.position - MachineEnemy.transform.position).normalized;
             MachineEnemy.Rb2dEnemy.linearVelocity = direction * MachineEnemy.CurrentSpeed;
         }
 

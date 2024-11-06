@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using UnityEngine;
+
 namespace Assets.Scripts.Player.States
 {
     public class StateDead : State
@@ -12,7 +14,7 @@ namespace Assets.Scripts.Player.States
 
         public override void OnEnter()
         {
-
+            Debug.Log("Player dead");
         }
 
         public override void OnUpdate()

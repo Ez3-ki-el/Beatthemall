@@ -5,6 +5,7 @@ using Assets.Scripts.Player.States;
 using UnityEditor;
 
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 namespace Assets.Scripts.Player
@@ -22,7 +23,14 @@ namespace Assets.Scripts.Player
         public float dashDuration = 0.2f;
         public float dashCooldown = 2f;
         // Il faut que la valeur d'init de chronoDashCooldown soit la même que dashCooldown pour éviter d'avoir un cooldown au lancement du jeu
-        [HideInInspector] public float chronoDashCooldown = 2f; 
+        [HideInInspector] public float chronoDashCooldown = 2f;
+
+        /// <summary>
+        /// Représente le collider d'attack
+        /// </summary>
+        public GameObject AttackArea;
+
+        public int LifePoints = 3;
         #endregion
 
         #region Properties 
@@ -83,13 +91,32 @@ namespace Assets.Scripts.Player
 
             Rb2dPlayer.linearVelocity = MoveDirection * currentSpeed;
 
-            chronoDashCooldown += Time.deltaTime;
+            // Gestion de la rotation du player
+            RotatePlayer();
 
+            chronoDashCooldown += Time.deltaTime;
         }
 
         private void OnCollisionEnter2D(Collision2D collision)
         {
 
+        }
+
+        private void OnTriggerEnter2D(Collider2D collision)
+        {
+            if (collision.CompareTag("EnemyAttack"))
+            {
+                LifePoints--;
+
+                if (LifePoints <= 0)
+                {
+                    IsDead = true;
+                }
+                else
+                {
+                    IsHit = true;
+                }
+            }
         }
 
         #endregion
@@ -103,6 +130,18 @@ namespace Assets.Scripts.Player
             currentState.OnEnter();
         }
 
+        private void RotatePlayer()
+        {
+            // Gestion de la rotation X du perso dans ses déplacements
+            if (MoveDirection.x < 0 && transform.localScale.x > 0)
+            {
+                transform.localScale = new Vector3(-Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
+            }
+            else if (MoveDirection.x > 0 && transform.localScale.x < 0)
+            {
+                transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
+            }
+        }
         #endregion
 
         #region Events

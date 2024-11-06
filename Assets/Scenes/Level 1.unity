@@ -173,6 +173,8 @@ MonoBehaviour:
   dashDuration: 0.5
   dashCooldown: 1
   chronoDashCooldown: 0
+  AttackArea: {fileID: 0}
+  LifePoints: 3
   MoveDirection: {x: 0, y: 0}
   IsAttacking: 0
   IsDead: 0
@@ -1787,6 +1789,8 @@ MonoBehaviour:
   dashDuration: 0.5
   dashCooldown: 1
   chronoDashCooldown: 0
+  AttackArea: {fileID: 0}
+  LifePoints: 3
   MoveDirection: {x: 0, y: 0}
   IsAttacking: 0
   IsDead: 0

@@ -18,7 +18,7 @@ namespace Assets.Scripts.Player.States
 
         public override void OnEnter()
         {
-
+            MachinePlayer.AttackArea.SetActive(true);
         }
 
         public override void OnUpdate()
@@ -50,7 +50,7 @@ namespace Assets.Scripts.Player.States
 
         public override void OnExit()
         {
-
+            MachinePlayer.AttackArea.SetActive(false);
         }
 
         public override void OnFixedUpdate()

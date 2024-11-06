@@ -19,35 +19,37 @@ namespace Assets.Scripts.Enemies.CasualEnemy
         public override void OnEnter()
         {
             MachineEnemy.Rb2dEnemy.linearVelocity = Vector2.zero;
-            Debug.Log("JATAAAAAAAAAAK");
+            MachineEnemy.IsAttacking = true;
+            MachineEnemy.AttackArea.SetActive(true);
         }
 
         public override void OnUpdate()
         {
-            //if (MachineEnemy.IsDead)
-            //{
-            //    MachineEnemy.ChangeState(StateMachineEnemy.STATE_DEAD);
-            //}
-            //else
-            //{
-            //    if (!MachineEnemy.IsMoving && !MachineEnemy.IsAttacking)
-            //    {
-            //        MachineEnemy.ChangeState(StateMachineEnemy.STATE_IDLE);
-            //    }
-            //    else if (MachineEnemy.IsMoving)
-            //    {
-            //        MachineEnemy.ChangeState(StateMachineEnemy.STATE_WALK);
-            //    }
-            //    else if (MachineEnemy.IsHit)
-            //    {
-            //        MachineEnemy.ChangeState(StateMachineEnemy.STATE_HIT);
-            //    }
-            //}
+            if (MachineEnemy.IsDead)
+            {
+                MachineEnemy.ChangeState(StateMachineEnemy.STATE_DEAD);
+            }
+            else
+            {
+                if (!MachineEnemy.IsMoving)
+                {
+                    MachineEnemy.ChangeState(StateMachineEnemy.STATE_IDLE);
+                }
+                else if (MachineEnemy.IsMoving)
+                {
+                    MachineEnemy.ChangeState(StateMachineEnemy.STATE_WALK);
+                }
+                else if (MachineEnemy.IsHit)
+                {
+                    MachineEnemy.ChangeState(StateMachineEnemy.STATE_HIT);
+                }
+            }
         }
 
         public override void OnExit()
         {
-
+            MachineEnemy.IsAttacking = false;
+            MachineEnemy.AttackArea.SetActive(false);
         }
 
         public override void OnFixedUpdate()

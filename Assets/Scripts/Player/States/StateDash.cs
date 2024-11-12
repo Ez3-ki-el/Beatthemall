@@ -16,6 +16,7 @@ namespace Assets.Scripts.Player.States
         public override void OnEnter()
         {
             MachinePlayer.currentSpeed = MachinePlayer.dashSpeed;
+            MachinePlayer.animator.SetFloat("Speed", MachinePlayer.dashSpeed);
             chrono = 0f;
         }
 

@@ -14,7 +14,7 @@ namespace Assets.Scripts.Player.States
 
         public override void OnEnter()
         {
-            Debug.Log("Player dead");
+            MachinePlayer.animator.SetBool("IsDead", MachinePlayer.IsDead);
         }
 
         public override void OnUpdate()

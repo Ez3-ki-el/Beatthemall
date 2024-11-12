@@ -14,10 +14,23 @@ namespace Assets.Scripts.Player.States
 {
     public class StateAttack : State
     {
+        private int currentAttackCounter;
+        private readonly int maxAttackCounter = 4;
+        private readonly float bufferAttack = 0.2f;
+        private float chronoAttack = 0f;
+
         public StateAttack(StateMachinePlayer player) : base(player) { }
 
         public override void OnEnter()
         {
+            // Gestion du compteur d'attaque pour changer les animations
+            if (currentAttackCounter == maxAttackCounter)
+                currentAttackCounter = 0;
+
+            // On passe à l'anim suivante
+            currentAttackCounter++;
+
+            MachinePlayer.animator.SetInteger("CounterAttack", currentAttackCounter);
             MachinePlayer.AttackArea.SetActive(true);
         }
 
@@ -29,17 +42,25 @@ namespace Assets.Scripts.Player.States
             }
             else
             {
-                if (!MachinePlayer.IsMoving && !MachinePlayer.IsAttacking)
+                if (chronoAttack > bufferAttack)
                 {
-                    MachinePlayer.ChangeState(StateMachinePlayer.STATE_IDLE);
+                    chronoAttack = 0;
+                    if (MachinePlayer.DashPressed)
+                    {
+                        MachinePlayer.ChangeState(StateMachinePlayer.STATE_DASH);
+                    }
+                    else if (!MachinePlayer.IsMoving)
+                    {
+                        MachinePlayer.ChangeState(StateMachinePlayer.STATE_IDLE);
+                    }
+                    else if (MachinePlayer.IsMoving)
+                    {
+                        MachinePlayer.ChangeState(StateMachinePlayer.STATE_WALK);
+                    }
                 }
-                else if (MachinePlayer.IsMoving)
+                else
                 {
-                    MachinePlayer.ChangeState(StateMachinePlayer.STATE_WALK);
-                }
-                else if (MachinePlayer.DashPressed)
-                {
-                    MachinePlayer.ChangeState(StateMachinePlayer.STATE_DASH);
+                    chronoAttack += Time.deltaTime;
                 }
             }
         }
@@ -47,6 +68,7 @@ namespace Assets.Scripts.Player.States
         public override void OnExit()
         {
             MachinePlayer.AttackArea.SetActive(false);
+            MachinePlayer.IsAttacking = false;
         }
 
         public override void OnFixedUpdate()

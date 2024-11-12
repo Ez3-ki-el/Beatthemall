@@ -39,11 +39,13 @@ namespace Assets.Scripts.Player
 
         public SpriteRenderer SpritePlayer => GetComponentInChildren<SpriteRenderer>();
 
-        private Coroutine hitCoroutine;
+        public Animator animator;
+        private InputAction inputAction;
         #endregion
 
         #region Properties 
 
+        private Coroutine hitCoroutine;
         /// <summary>
         /// Liste de tous les états du player (Nom de la classe State / Objet de type State)
         /// </summary>
@@ -84,12 +86,19 @@ namespace Assets.Scripts.Player
             _states.Add(STATE_DASH, new StateDash(this));
 
             ChangeState(nameof(StateIdle));
+
+            inputAction = InputSystem.actions.FindAction("Attack");
         }
 
         // Update is called once per frame
         private void Update()
         {
             currentState?.OnUpdate();
+
+            //IsAttacking = inputAction.WasPerformedThisFrame();
+            //Debug.Log(animator.GetCurrentAnimatorStateInfo(0).normalizedTime);
+            //if (IsAttacking && animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 1)
+            //    IsAttacking = false;
         }
 
         private void FixedUpdate()
@@ -97,12 +106,17 @@ namespace Assets.Scripts.Player
             currentState?.OnFixedUpdate();
             Rb2dPlayer.linearVelocity = MoveDirection * currentSpeed;
 
+            // Animations
+            animator.SetBool("IsAttacking", IsAttacking);
+
             // Gestion de la rotation du player
             RotatePlayer();
 
             chronoDashCooldown += Time.deltaTime;
 
             HitOrNotHit();
+
+
         }
 
         private IEnumerator CoroutineHit()
@@ -180,7 +194,6 @@ namespace Assets.Scripts.Player
             {
                 if (!IsHit)
                 {
-                    //Debug.Log("EnemyAttack on player");
                     LifePoints--;
 
                     if (LifePoints <= 0)
@@ -190,6 +203,7 @@ namespace Assets.Scripts.Player
                     else
                     {
                         IsHit = true;
+                        animator.SetBool("IsHit", true);
                     }
                 }
             }
@@ -198,7 +212,6 @@ namespace Assets.Scripts.Player
             {
                 if (!IsHit)
                 {
-                    //Debug.Log("Touched by aoe");
                     LifePoints--;
 
                     if (LifePoints <= 0)
@@ -208,6 +221,7 @@ namespace Assets.Scripts.Player
                     else
                     {
                         IsHit = true;
+                        animator.SetBool("IsHit", true);
                     }
                 }
             }
@@ -243,7 +257,7 @@ namespace Assets.Scripts.Player
 
         public void OnAttack(InputAction.CallbackContext context)
         {
-            if (context.phase == InputActionPhase.Performed)
+            if (context.phase == InputActionPhase.Started) // Input en mode "tap"
             {
                 IsAttacking = true;
             }

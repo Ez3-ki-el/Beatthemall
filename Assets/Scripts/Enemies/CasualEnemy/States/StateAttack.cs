@@ -14,6 +14,8 @@ namespace Assets.Scripts.Enemies.CasualEnemy
 {
     public class StateAttack : State
     {
+
+
         public StateAttack(StateMachineEnemy enemy) : base(enemy) { }
 
         public override void OnEnter()

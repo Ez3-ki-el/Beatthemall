@@ -8,6 +8,9 @@ TagManager:
   - Player2Attack
   - EnemyAttack
   - AoeAttack
+  - BlueCan
+  - RedCan
+  - GreenCan
   layers:
   - Default
   - TransparentFX

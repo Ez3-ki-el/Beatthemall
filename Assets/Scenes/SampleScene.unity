@@ -137,7 +137,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &52280763
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -159,6 +159,7 @@ MonoBehaviour:
   AttackArea: {fileID: 0}
   LifePoints: 400
   HitDuration: 3
+  animator: {fileID: 0}
   MoveDirection: {x: 0, y: 0}
   IsAttacking: 0
   IsDead: 0
@@ -264,6 +265,8 @@ GameObject:
   m_Component:
   - component: {fileID: 491212544}
   - component: {fileID: 491212545}
+  - component: {fileID: 491212546}
+  - component: {fileID: 491212547}
   m_Layer: 0
   m_Name: Graphics
   m_TagString: Untagged
@@ -330,7 +333,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 1827349648, guid: 94cf9249faa85934daec44f5f007b80d, type: 3}
+  m_Sprite: {fileID: -1249699823, guid: 41117c99b451d4c2e80c29c12bb89370, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -341,6 +344,44 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &491212546
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 491212543}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 933c6a850c505e14b9f240646ebde000, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!111 &491212547
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 491212543}
+  m_Enabled: 0
+  serializedVersion: 4
+  m_Animation: {fileID: 7400000, guid: 0bc69b3511995de43bac29e690191e4f, type: 2}
+  m_Animations: []
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_UpdateMode: 0
+  m_CullingType: 0
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -767,14 +808,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentSpeed: 0
-  walkSpeed: 6
-  dashSpeed: 12
+  walkSpeed: 3
+  dashSpeed: 6
   dashDuration: 0.5
   dashCooldown: 5
   chronoDashCooldown: 0
   AttackArea: {fileID: 546650379}
-  LifePoints: 300
+  LifePoints: 2
   HitDuration: 3
+  animator: {fileID: 491212546}
   MoveDirection: {x: 0, y: 0}
   IsAttacking: 0
   IsDead: 0

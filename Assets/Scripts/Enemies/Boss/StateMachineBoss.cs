@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Collections;
 
 using Assets.Scripts.Player;
 
@@ -52,10 +53,18 @@ namespace Assets.Scripts.Enemies.Boss
         [HideInInspector] public bool IsAttackingAOE;
         [HideInInspector] public bool IsHit;
         [HideInInspector] public float AttackRange = 1.3f;
-
+        [HideInInspector] private float chronoHit = 0f;
         [HideInInspector] public Rigidbody2D Rb2dEnemy => GetComponent<Rigidbody2D>();
 
+        public Animator Animator => GetComponentInChildren<Animator>();
+        public SpriteRenderer SpriteBoss => GetComponentInChildren<SpriteRenderer>();
 
+
+        /// <summary>
+        /// Détermine la durée durant laquelle le perso reste dans l'état 'Hit' après avoir pris un dégat
+        /// </summary>
+        public float HitDuration = 3f;
+        private Coroutine hitCoroutine;
         #endregion
 
         #region States
@@ -111,6 +120,47 @@ namespace Assets.Scripts.Enemies.Boss
 
             currentState?.OnUpdate();
         }
+
+
+        private IEnumerator CoroutineHit()
+        {
+            bool isRed = false;
+
+            while (chronoHit < HitDuration)
+            {
+                SpriteBoss.color = isRed ? Color.white : Color.red;
+                isRed = !isRed;
+                yield return new WaitForSeconds(0.2f);  // Temps de clignotement
+            }
+
+            SpriteBoss.color = Color.white;
+            hitCoroutine = null;
+        }
+
+        private void HitOrNotHit()
+        {
+            // Gestion du hit
+            if (IsHit)
+            {
+                if (chronoHit > HitDuration)
+                {
+                    IsHit = false;
+                    SpriteBoss.color = Color.white;
+                    chronoHit = 0f;
+                }
+                else
+                {
+                    chronoHit += Time.deltaTime;
+                    hitCoroutine ??= StartCoroutine(CoroutineHit());
+                }
+            }
+            else if (hitCoroutine != null)
+            {
+                StopCoroutine(hitCoroutine);
+                hitCoroutine = null;
+            }
+        }
+
 
         private void FixedUpdate()
         {

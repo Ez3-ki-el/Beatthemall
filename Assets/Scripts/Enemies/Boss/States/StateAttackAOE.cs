@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Assets.Scripts.Enemies.Boss
 {
@@ -16,10 +10,9 @@ namespace Assets.Scripts.Enemies.Boss
 
         public override void OnEnter()
         {
-        
+
             MachineBoss.Rb2dEnemy.linearVelocity = Vector2.zero;
-            //MachineBoss.IsAttackingAOE = true;
-            //MachineBoss.AttackAreaAOE.SetActive(true);
+            MachineBoss.Animator.SetBool("IsHeavyAttacking", true);
         }
 
         public override void OnUpdate()
@@ -30,42 +23,42 @@ namespace Assets.Scripts.Enemies.Boss
             }
             else
             {
-                if (MachineBoss.DistanceToPlayerAggro <= MachineBoss.AttackRange)
+                if (chronoAoe >= MachineBoss.DurationAOE)
                 {
-                    MachineBoss.ChangeState(StateMachineBoss.STATE_ATTACK);
-                }
-                else if (!MachineBoss.IsMoving)
-                {
-                    MachineBoss.ChangeState(StateMachineBoss.STATE_IDLE);
-                }
-                else if (MachineBoss.IsMoving)
-                {
-                    MachineBoss.ChangeState(StateMachineBoss.STATE_WALK);
-                }
+                    MachineBoss.IsAttackingAOE = false;
+                    MachineBoss.AttackAreaAOE.SetActive(false);
+                    chronoAoe = 0;
 
+                    if (MachineBoss.DistanceToPlayerAggro <= MachineBoss.AttackRange)
+                    {
+                        MachineBoss.ChangeState(StateMachineBoss.STATE_ATTACK);
+                    }
+                    else if (!MachineBoss.IsMoving)
+                    {
+                        MachineBoss.ChangeState(StateMachineBoss.STATE_IDLE);
+                    }
+                    else
+                    {
+                        MachineBoss.ChangeState(StateMachineBoss.STATE_WALK);
+                    }
+                }
+                else
+                {
+                    chronoAoe += Time.deltaTime;
+                    MachineBoss.AttackAreaAOE.SetActive(true);
+                    MachineBoss.IsAttackingAOE = true;
+                }
             }
         }
 
         public override void OnExit()
         {
+            MachineBoss.Animator.SetBool("IsHeavyAttacking", false);
         }
 
         public override void OnFixedUpdate()
         {
-            if (chronoAoe >= MachineBoss.DurationAOE)
-            {
-                //Debug.Log("Fin attack AOE");
-                MachineBoss.IsAttackingAOE = false;
-                MachineBoss.AttackAreaAOE.SetActive(false);
-                chronoAoe = 0;
-            }
-            else
-            {
-                chronoAoe += Time.deltaTime;
-                MachineBoss.AttackAreaAOE.SetActive(true);
-                MachineBoss.IsAttackingAOE = true;
-                //Debug.Log("Attack AOE");
-            }
+
         }
 
         public override void OnTriggerEnter()

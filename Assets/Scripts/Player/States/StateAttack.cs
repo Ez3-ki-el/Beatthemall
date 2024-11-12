@@ -30,7 +30,7 @@ namespace Assets.Scripts.Player.States
             // On passe à l'anim suivante
             currentAttackCounter++;
 
-            MachinePlayer.animator.SetInteger("CounterAttack", currentAttackCounter);
+            MachinePlayer.Animator.SetInteger("CounterAttack", currentAttackCounter);
             MachinePlayer.AttackArea.SetActive(true);
         }
 

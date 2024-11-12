@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using UnityEngine;
+
 namespace Assets.Scripts.Enemies.Boss
 {
     public class StateDead : State
@@ -13,6 +15,9 @@ namespace Assets.Scripts.Enemies.Boss
         public override void OnEnter()
         {
             MachineBoss.IsDead = true;
+            MachineBoss.Animator.SetBool("IsDead", MachineBoss.IsDead);
+            GameObject.Destroy(MachineBoss.gameObject, 2f);
+
         }
 
         public override void OnUpdate()

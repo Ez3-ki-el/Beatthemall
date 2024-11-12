@@ -14,7 +14,7 @@ namespace Assets.Scripts.Player.States
         public override void OnEnter()
         {
             MachinePlayer.currentSpeed = MachinePlayer.walkSpeed;
-            MachinePlayer.animator.SetFloat("Speed", MachinePlayer.walkSpeed);
+            MachinePlayer.Animator.SetFloat("Speed", MachinePlayer.walkSpeed);
         }
 
         public override void OnUpdate()
@@ -54,5 +54,6 @@ namespace Assets.Scripts.Player.States
         {
 
         }
+
     }
 }

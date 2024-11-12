@@ -39,7 +39,7 @@ namespace Assets.Scripts.Player
 
         public SpriteRenderer SpritePlayer => GetComponentInChildren<SpriteRenderer>();
 
-        public Animator animator;
+        public Animator Animator => GetComponentInChildren<Animator>();
         private InputAction inputAction;
         #endregion
 
@@ -107,7 +107,7 @@ namespace Assets.Scripts.Player
             Rb2dPlayer.linearVelocity = MoveDirection * currentSpeed;
 
             // Animations
-            animator.SetBool("IsAttacking", IsAttacking);
+            Animator.SetBool("IsAttacking", IsAttacking);
 
             // Gestion de la rotation du player
             RotatePlayer();
@@ -158,31 +158,6 @@ namespace Assets.Scripts.Player
             }
         }
 
-        private void Hit()
-        {
-            if (IsHit)
-            {
-                if (chronoHit > HitDuration)
-                {
-                    IsHit = false;
-                    SpritePlayer.color = Color.white;
-                    chronoHit = 0f;
-                }
-                else
-                {
-                    chronoHit += Time.deltaTime;
-                    hitCoroutine ??= StartCoroutine(CoroutineHit());
-                }
-            }
-            else if (hitCoroutine != null)
-            {
-                StopCoroutine(hitCoroutine);
-                hitCoroutine = null;
-            }
-        }
-
-
-
         private void OnCollisionEnter2D(Collision2D collision)
         {
 
@@ -203,7 +178,6 @@ namespace Assets.Scripts.Player
                     else
                     {
                         IsHit = true;
-                        animator.SetBool("IsHit", true);
                     }
                 }
             }
@@ -221,7 +195,6 @@ namespace Assets.Scripts.Player
                     else
                     {
                         IsHit = true;
-                        animator.SetBool("IsHit", true);
                     }
                 }
             }

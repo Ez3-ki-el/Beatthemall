@@ -12,7 +12,7 @@ namespace Assets.Scripts.Player.States
         public override void OnEnter()
         {
             MachinePlayer.currentSpeed = 0f;
-            MachinePlayer.animator.SetFloat("Speed", 0);
+            MachinePlayer.Animator.SetFloat("Speed", 0);
         }
 
         public override void OnUpdate()

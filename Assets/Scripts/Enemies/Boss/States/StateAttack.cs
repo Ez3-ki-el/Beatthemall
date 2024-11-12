@@ -14,6 +14,9 @@ namespace Assets.Scripts.Enemies.Boss
 {
     public class StateAttack : State
     {
+        private readonly float bufferAttack = 0.6f;
+        private float chronoAttack = 0f;
+
         public StateAttack(StateMachineBoss boss) : base(boss) { }
 
         public override void OnEnter()
@@ -21,8 +24,7 @@ namespace Assets.Scripts.Enemies.Boss
             MachineBoss.Rb2dEnemy.linearVelocity = Vector2.zero;
             MachineBoss.IsAttacking = true;
             MachineBoss.AttackArea.SetActive(true);
-
-            //Debug.Log("Boss attack");
+            MachineBoss.Animator.SetBool("IsAttacking", true);
         }
 
         public override void OnUpdate()
@@ -33,17 +35,26 @@ namespace Assets.Scripts.Enemies.Boss
             }
             else
             {
-                if (MachineBoss.IsAttackingAOE)
+                if (chronoAttack > bufferAttack)
                 {
-                    MachineBoss.ChangeState(StateMachineBoss.STATE_ATTACK_AOE);
+                    chronoAttack = 0;
+
+                    if (MachineBoss.IsAttackingAOE)
+                    {
+                        MachineBoss.ChangeState(StateMachineBoss.STATE_ATTACK_AOE);
+                    }
+                    else if (!MachineBoss.IsMoving)
+                    {
+                        MachineBoss.ChangeState(StateMachineBoss.STATE_IDLE);
+                    }
+                    else // On le force à se remettre en mouvement
+                    {
+                        MachineBoss.ChangeState(StateMachineBoss.STATE_WALK);
+                    }
                 }
-                else if (!MachineBoss.IsMoving)
+                else
                 {
-                    MachineBoss.ChangeState(StateMachineBoss.STATE_IDLE);
-                }
-                else if (MachineBoss.IsMoving)
-                {
-                    MachineBoss.ChangeState(StateMachineBoss.STATE_WALK);
+                    chronoAttack += Time.deltaTime;
                 }
             }
         }
@@ -52,6 +63,7 @@ namespace Assets.Scripts.Enemies.Boss
         {
             MachineBoss.IsAttacking = false;
             MachineBoss.AttackArea.SetActive(false);
+            MachineBoss.Animator.SetBool("IsAttacking", false);
         }
 
         public override void OnFixedUpdate()

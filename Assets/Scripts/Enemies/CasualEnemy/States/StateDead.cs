@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using UnityEngine;
+
 namespace Assets.Scripts.Enemies.CasualEnemy
 {
     public class StateDead : State
@@ -13,6 +15,8 @@ namespace Assets.Scripts.Enemies.CasualEnemy
         public override void OnEnter()
         {
             MachineEnemy.IsDead = true;
+            MachineEnemy.Animator.SetBool("IsDead", MachineEnemy.IsDead);
+            GameObject.Destroy(MachineEnemy.gameObject, 2f);
         }
 
         public override void OnUpdate()

@@ -1,6 +1,9 @@
+using System.Collections;
 using System.Collections.Generic;
 
 using Assets.Scripts.Player.States;
+
+using Unity.VisualScripting;
 
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -20,7 +23,11 @@ namespace Assets.Scripts.Enemies.CasualEnemy
         public GameObject AttackArea;
 
         public Transform Player1Transform;
+        [AllowsNull]
         public Transform Player2Transform;
+
+        public Animator Animator => GetComponentInChildren<Animator>();
+        public SpriteRenderer SpriteEnemy => GetComponentInChildren<SpriteRenderer>();
         /// <summary>
         /// Détermine quel personnage l'enemey va aggro
         /// </summary>
@@ -32,9 +39,14 @@ namespace Assets.Scripts.Enemies.CasualEnemy
         [HideInInspector] public bool IsAttacking;
         [HideInInspector] public bool IsHit;
         [HideInInspector] public float AttackRange = 3f;
-
+        [HideInInspector] public float chronoDashCooldown = 2f;
+        [HideInInspector] private float chronoHit = 0f;
         [HideInInspector] public Rigidbody2D Rb2dEnemy => GetComponent<Rigidbody2D>();
-
+        /// <summary>
+        /// Détermine la durée durant laquelle le perso reste dans l'état 'Hit' après avoir pris un dégat
+        /// </summary>
+        public float HitDuration = 3f;
+        private Coroutine hitCoroutine;
 
         #endregion
 
@@ -74,13 +86,52 @@ namespace Assets.Scripts.Enemies.CasualEnemy
         private void Update()
         {
             CalculAggro();
-
+            HitOrNotHit();
             currentState?.OnUpdate();
         }
 
         private void FixedUpdate()
         {
             currentState?.OnFixedUpdate();
+        }
+
+        private IEnumerator CoroutineHit()
+        {
+            bool isRed = false;
+
+            while (chronoHit < HitDuration)
+            {
+                SpriteEnemy.color = isRed ? Color.white : Color.red;
+                isRed = !isRed;
+                yield return new WaitForSeconds(0.2f);  // Temps de clignotement
+            }
+
+            SpriteEnemy.color = Color.white;
+            hitCoroutine = null;
+        }
+
+        private void HitOrNotHit()
+        {
+            // Gestion du hit
+            if (IsHit)
+            {
+                if (chronoHit > HitDuration)
+                {
+                    IsHit = false;
+                    SpriteEnemy.color = Color.white;
+                    chronoHit = 0f;
+                }
+                else
+                {
+                    chronoHit += Time.deltaTime;
+                    hitCoroutine ??= StartCoroutine(CoroutineHit());
+                }
+            }
+            else if (hitCoroutine != null)
+            {
+                StopCoroutine(hitCoroutine);
+                hitCoroutine = null;
+            }
         }
 
         private void OnTriggerEnter2D(Collider2D collision)
@@ -115,22 +166,32 @@ namespace Assets.Scripts.Enemies.CasualEnemy
 
         private void CalculAggro()
         {
-            // Récupération des distances entre l'enemy et les players
-            float distanceP1 = Vector2.Distance(transform.position, Player1Transform.position);
-            float distanceP2 = Vector2.Distance(transform.position, Player2Transform.position);
-
-            // On choisi la distance la plus courte pour l'aggro
-            if (distanceP1 <= distanceP2)
+            if (Player2Transform != null) // Cas du multi joueur
             {
-                DistanceToPlayerAggro = distanceP1;
-                PlayerAggro = Player1Transform;
+                // Récupération des distances entre l'enemy et les players
+                float distanceP1 = Vector2.Distance(transform.position, Player1Transform.position);
+                float distanceP2 = Vector2.Distance(transform.position, Player2Transform.position);
+
+                // On choisi la distance la plus courte pour l'aggro
+                if (distanceP1 <= distanceP2)
+                {
+                    DistanceToPlayerAggro = distanceP1;
+                    PlayerAggro = Player1Transform;
+                }
+                else
+                {
+                    DistanceToPlayerAggro = distanceP2;
+                    PlayerAggro = Player2Transform;
+                }
             }
             else
             {
-                DistanceToPlayerAggro = distanceP2;
-                PlayerAggro = Player2Transform;
+                DistanceToPlayerAggro = Vector2.Distance(transform.position, Player1Transform.position);
+                PlayerAggro = Player1Transform;
             }
         }
+
+
 
         #endregion
     }

@@ -17,14 +17,14 @@ namespace Assets.Scripts.Enemies.Boss
         public float CurrentSpeed = 0f;
         public float WalkSpeed = 2f;
 
-   
+
         public int LifePoints = 3;
 
         public GameObject AttackArea;
         public GameObject AttackAreaAOE;
 
-        public GameObject Player1;
-        public GameObject Player2;
+        [HideInInspector] public GameObject Player1;
+        [HideInInspector] public GameObject Player2;
 
         public float MinRangeCooldownAoe = 3f;
         public float MaxRangeCooldownAoe = 6f;
@@ -37,8 +37,8 @@ namespace Assets.Scripts.Enemies.Boss
         /// </summary>
         public float DurationAOE = 1f;
 
-        public StateMachinePlayer MachinePlayer1 => Player1.GetComponent<StateMachinePlayer>();
-        public StateMachinePlayer MachinePlayer2 => Player2.GetComponent<StateMachinePlayer>();
+        [HideInInspector] public StateMachinePlayer MachinePlayer1;
+        [HideInInspector] public StateMachinePlayer MachinePlayer2;
 
 
         /// <summary>
@@ -100,6 +100,15 @@ namespace Assets.Scripts.Enemies.Boss
 
             ChangeState(nameof(StateIdle));
             CooldownAOE = Random.Range(MinRangeCooldownAoe, MaxRangeCooldownAoe);
+
+            Player1 = GameObject.Find("Player1");
+            Player2 = GameObject.Find("Player2");
+
+            MachinePlayer1 = Player1.GetComponent<StateMachinePlayer>();
+
+            if (Player2 != null)
+                MachinePlayer2 = Player2.GetComponent<StateMachinePlayer>();
+
         }
 
         // Update is called once per frame
@@ -192,7 +201,7 @@ namespace Assets.Scripts.Enemies.Boss
 
         public void ChangeState(string stateName)
         {
-     
+
             currentState?.OnExit();
             currentState = _states[stateName];
             currentState.OnEnter();
@@ -200,8 +209,15 @@ namespace Assets.Scripts.Enemies.Boss
 
         private void CalculAggro()
         {
-            // Le boss aggro le joueur avec le moins de PV
-            PlayerAggro = MachinePlayer1.LifePoints <= MachinePlayer2.LifePoints ? Player1.transform : Player2.transform;
+            if (Player2 != null)
+            {
+                // Le boss aggro le joueur avec le moins de PV
+                PlayerAggro = MachinePlayer1.LifePoints <= MachinePlayer2.LifePoints ? Player1.transform : Player2.transform;
+            }
+            else
+            { // Sinon on prend player1
+                PlayerAggro = Player1.transform;
+            }
 
             DistanceToPlayerAggro = Vector2.Distance(transform.position, PlayerAggro.transform.position);
         }

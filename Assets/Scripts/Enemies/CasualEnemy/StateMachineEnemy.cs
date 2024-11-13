@@ -8,6 +8,8 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
+using static UnityEditor.Experimental.GraphView.GraphView;
+
 namespace Assets.Scripts.Enemies.CasualEnemy
 {
     public class StateMachineEnemy : MonoBehaviour
@@ -22,9 +24,9 @@ namespace Assets.Scripts.Enemies.CasualEnemy
 
         public GameObject AttackArea;
 
-        public Transform Player1Transform;
+        [HideInInspector]  public Transform Player1Transform;
         [AllowsNull]
-        public Transform Player2Transform;
+        [HideInInspector]  public Transform Player2Transform;
 
         public Animator Animator => GetComponentInChildren<Animator>();
         public SpriteRenderer SpriteEnemy => GetComponentInChildren<SpriteRenderer>();
@@ -80,6 +82,9 @@ namespace Assets.Scripts.Enemies.CasualEnemy
             _states.Add(STATE_DEAD, new StateDead(this));
 
             ChangeState(nameof(StateIdle));
+
+            Player1Transform = GameObject.Find("Player1").transform;
+            Player2Transform = GameObject.Find("Player2").transform;
         }
 
         // Update is called once per frame

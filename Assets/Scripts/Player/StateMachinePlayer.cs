@@ -29,7 +29,7 @@ namespace Assets.Scripts.Player
         /// <summary>
         /// Représente le collider d'attack
         /// </summary>
-        public GameObject AttackArea;
+        [HideInInspector] public GameObject AttackArea;
 
         public int LifePoints = 3;
         /// <summary>
@@ -87,7 +87,7 @@ namespace Assets.Scripts.Player
 
             ChangeState(nameof(StateIdle));
 
-            inputAction = InputSystem.actions.FindAction("Attack");
+            AttackArea = transform.Find("Attack").gameObject;
         }
 
         // Update is called once per frame

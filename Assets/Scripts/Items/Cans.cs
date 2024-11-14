@@ -1,11 +1,6 @@
 using System.Collections;
 
-using Assets.Scripts.Player;
-
 using UnityEngine;
-
-using static Unity.Collections.AllocatorManager;
-using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class Cans : MonoBehaviour
 {

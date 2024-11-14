@@ -1,14 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 
-using Assets.Scripts.Player.States;
-
 using Unity.VisualScripting;
 
 using UnityEngine;
-using UnityEngine.EventSystems;
-
-using static UnityEditor.Experimental.GraphView.GraphView;
 
 namespace Assets.Scripts.Enemies.CasualEnemy
 {

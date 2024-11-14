@@ -266,8 +266,8 @@ MonoBehaviour:
     m_ActionId: 72e1b8e4-caec-4708-b542-216d03f0ee19
     m_ActionName: UI2/TrackedDeviceOrientation
   m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: Keyboard&Mouse
-  m_DefaultActionMap: Player
+  m_DefaultControlScheme: Gamepad
+  m_DefaultActionMap: Player2
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
 --- !u!1 &1878379956457274317
@@ -284,7 +284,7 @@ GameObject:
   - component: {fileID: 3649297958631318231}
   - component: {fileID: 9174091907623810750}
   m_Layer: 3
-  m_Name: PLAYER1
+  m_Name: PLAYER2
   m_TagString: Player1
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -299,7 +299,7 @@ Transform:
   m_GameObject: {fileID: 1878379956457274317}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -35.454, y: -4.096, z: 0}
+  m_LocalPosition: {x: -35.454, y: -2.78, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -405,7 +405,7 @@ MonoBehaviour:
   AttackArea: {fileID: 7728333689697664132}
   AttackAreaUlti: {fileID: 0}
   HitDuration: 3
-  playerPoints: {fileID: 11400000, guid: c398320eca9a6174caff11cf1495fdd5, type: 2}
+  playerPoints: {fileID: 11400000, guid: f15cf733c9319d74a8c5869d007c6451, type: 2}
   MoveDirection: {x: 0, y: 0}
   IsAttacking: 0
   IsDead: 0

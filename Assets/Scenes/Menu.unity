@@ -262,7 +262,7 @@ Animator:
   m_GameObject: {fileID: 35903698}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 8a857b21e63f5ed4493292d424ebc418, type: 2}
+  m_Controller: {fileID: 9100000, guid: 933c6a850c505e14b9f240646ebde000, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -417,7 +417,7 @@ Animator:
   m_GameObject: {fileID: 202082957}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 477ede4948ac4454a82fef058b50deed, type: 2}
+  m_Controller: {fileID: 9100000, guid: 2b2d4894057aa8042b21fb01f5812d6c, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -572,7 +572,7 @@ Animator:
   m_GameObject: {fileID: 275916057}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: aaa3fbd0249626443b6adaf7c471ad3d, type: 2}
+  m_Controller: {fileID: 9100000, guid: f396c4580c503e94bb2b56747e91b3ab, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -623,6 +623,13 @@ MonoBehaviour:
   - {fileID: 35903698}
   player1Input: {fileID: 688238628}
   player2Input: {fileID: 868410788}
+  player1Prefab: {fileID: 1878379956457274317, guid: b300780a04128e245b9100b0a233d974, type: 3}
+  player2Prefab: {fileID: 1878379956457274317, guid: 9261c2d66e3805b498d7f0af9ff34e10, type: 3}
+  Animator1: {fileID: 0}
+  Animator2: {fileID: 0}
+  Animator3: {fileID: 0}
+  Animator4: {fileID: 0}
+  Animator5: {fileID: 0}
 --- !u!4 &364348597
 Transform:
   m_ObjectHideFlags: 0
@@ -1697,7 +1704,7 @@ Animator:
   m_GameObject: {fileID: 1757381572}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 058b72b7c9f199642a1f485813697605, type: 2}
+  m_Controller: {fileID: 9100000, guid: c833ec4060049d148a8c4b042a4d38d8, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -1957,7 +1964,7 @@ Animator:
   m_GameObject: {fileID: 1937922359}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 88cada13e8245f0479cb3ddc579eb893, type: 2}
+  m_Controller: {fileID: 9100000, guid: e6551844455fa4c4ca8d6a73f2884f64, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

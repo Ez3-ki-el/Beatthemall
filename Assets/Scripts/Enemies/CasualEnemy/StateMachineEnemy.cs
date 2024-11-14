@@ -81,8 +81,8 @@ namespace Assets.Scripts.Enemies.CasualEnemy
 
             ChangeState(nameof(StateIdle));
 
-            Player1Transform = GameObject.Find("PLAYER1").transform;
-            Player2Transform = GameObject.Find("PLAYER2")?.transform;
+            Player1Transform = GameObject.Find("PLAYER1(Clone)").transform;
+            Player2Transform = GameObject.Find("PLAYER2(Clone)")?.transform;
 
 
         }

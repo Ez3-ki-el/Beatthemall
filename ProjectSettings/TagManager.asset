@@ -11,6 +11,8 @@ TagManager:
   - BlueCan
   - RedCan
   - GreenCan
+  - Player1
+  - Player2
   layers:
   - Default
   - TransparentFX
@@ -18,7 +20,7 @@ TagManager:
   - Player
   - Water
   - UI
-  - 
+  - Enemy
   - 
   - 
   - 

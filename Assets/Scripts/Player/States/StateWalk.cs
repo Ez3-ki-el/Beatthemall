@@ -13,7 +13,7 @@ namespace Assets.Scripts.Player.States
 
         public override void OnEnter()
         {
-            MachinePlayer.currentSpeed = MachinePlayer.walkSpeed;
+            MachinePlayer.currentSpeed = MachinePlayer.walkSpeed * MachinePlayer.multiplier;
             MachinePlayer.Animator.SetFloat("Speed", MachinePlayer.walkSpeed);
         }
 
@@ -25,7 +25,11 @@ namespace Assets.Scripts.Player.States
             }
             else
             {
-                if (MachinePlayer.DashPressed)
+                if (MachinePlayer.IsUlting)
+                {
+                    MachinePlayer.ChangeState(StateMachinePlayer.STATE_ULTI);
+                }
+                else if (MachinePlayer.DashPressed)
                 {
                     MachinePlayer.ChangeState(StateMachinePlayer.STATE_DASH);
                 }

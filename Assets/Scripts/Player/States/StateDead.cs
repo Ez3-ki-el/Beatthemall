@@ -15,6 +15,7 @@ namespace Assets.Scripts.Player.States
         public override void OnEnter()
         {
             MachinePlayer.Animator.SetBool("IsDead", MachinePlayer.IsDead);
+            GameObject.Destroy(MachinePlayer.gameObject, 2f);
         }
 
         public override void OnUpdate()

@@ -30,7 +30,11 @@ namespace Assets.Scripts.Player.States
             {
                 if (!MachinePlayer.DashPressed)
                 {
-                    if (MachinePlayer.IsAttacking)
+                    if (MachinePlayer.IsUlting)
+                    {
+                        MachinePlayer.ChangeState(StateMachinePlayer.STATE_ULTI);
+                    }
+                    else if (MachinePlayer.IsAttacking)
                     {
                         MachinePlayer.ChangeState(StateMachinePlayer.STATE_ATTACK);
                     }
@@ -48,7 +52,7 @@ namespace Assets.Scripts.Player.States
 
         public override void OnExit()
         {
-            MachinePlayer.currentSpeed = MachinePlayer.walkSpeed;
+            MachinePlayer.currentSpeed = MachinePlayer.walkSpeed * MachinePlayer.multiplier;
         }
 
         public override void OnFixedUpdate()

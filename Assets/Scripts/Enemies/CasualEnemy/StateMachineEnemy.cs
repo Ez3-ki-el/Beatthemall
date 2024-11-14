@@ -24,13 +24,14 @@ namespace Assets.Scripts.Enemies.CasualEnemy
 
         public GameObject AttackArea;
 
-        [HideInInspector]  public Transform Player1Transform;
+        [HideInInspector] public Transform Player1Transform;
         [AllowsNull]
-        [HideInInspector]  public Transform Player2Transform;
+        [HideInInspector] public Transform Player2Transform;
+        
         public Animator Animator => GetComponentInChildren<Animator>();
         public SpriteRenderer SpriteEnemy => GetComponentInChildren<SpriteRenderer>();
         /// <summary>
-        /// Détermine quel personnage l'enemey va aggro
+        /// Dï¿½termine quel personnage l'enemey va aggro
         /// </summary>
         [HideInInspector] public Transform PlayerAggro;
         [HideInInspector] public float DistanceToPlayerAggro;
@@ -44,17 +45,20 @@ namespace Assets.Scripts.Enemies.CasualEnemy
         [HideInInspector] private float chronoHit = 0f;
         [HideInInspector] public Rigidbody2D Rb2dEnemy => GetComponent<Rigidbody2D>();
         /// <summary>
-        /// Détermine la durée durant laquelle le perso reste dans l'état 'Hit' après avoir pris un dégat
+        /// Dï¿½termine la durï¿½e durant laquelle le perso reste dans l'ï¿½tat 'Hit' aprï¿½s avoir pris un dï¿½gat
         /// </summary>
         public float HitDuration = 3f;
         private Coroutine hitCoroutine;
+        public delegate void EnemyDestroyed();
+        public event EnemyDestroyed OnEnemyDestroyed;
+
 
         #endregion
 
         #region States
 
         /// <summary>
-        /// Liste de tous les états du player (Nom de la classe State / Objet de type State)
+        /// Liste de tous les ï¿½tats du player (Nom de la classe State / Objet de type State)
         /// </summary>
         private readonly Dictionary<string, State> _states = new();
 
@@ -82,8 +86,10 @@ namespace Assets.Scripts.Enemies.CasualEnemy
 
             ChangeState(nameof(StateIdle));
 
-            Player1Transform = GameObject.Find("Player1").transform;
-            Player2Transform = GameObject.Find("Player2").transform;
+            Player1Transform = GameObject.Find("PLAYER1").transform;
+            Player2Transform = GameObject.Find("PLAYER2")?.transform;
+
+
         }
 
         // Update is called once per frame
@@ -157,6 +163,16 @@ namespace Assets.Scripts.Enemies.CasualEnemy
             }
         }
 
+
+        public void OnDestroy()
+        {
+            if (OnEnemyDestroyed != null)
+            {
+                OnEnemyDestroyed.Invoke();
+            }
+            GameObject.Destroy(gameObject, 1.5f);
+        }
+
         #endregion
 
         #region Methods
@@ -172,7 +188,7 @@ namespace Assets.Scripts.Enemies.CasualEnemy
         {
             if (Player2Transform != null) // Cas du multi joueur
             {
-                // Récupération des distances entre l'enemy et les players
+                // Rï¿½cupï¿½ration des distances entre l'enemy et les players
                 float distanceP1 = Vector2.Distance(transform.position, Player1Transform.position);
                 float distanceP2 = Vector2.Distance(transform.position, Player2Transform.position);
 
@@ -190,8 +206,11 @@ namespace Assets.Scripts.Enemies.CasualEnemy
             }
             else
             {
-                DistanceToPlayerAggro = Vector2.Distance(transform.position, Player1Transform.position);
-                PlayerAggro = Player1Transform;
+                if (Player1Transform != null)
+                {
+                    DistanceToPlayerAggro = Vector2.Distance(transform.position, Player1Transform.position);
+                    PlayerAggro = Player1Transform;
+                }
             }
         }
 

@@ -184,7 +184,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8550383583568290108}
   - component: {fileID: 8780683843771563223}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Attack
   m_TagString: Player1Attack
   m_Icon: {fileID: 0}
@@ -267,7 +267,7 @@ GameObject:
   - component: {fileID: 1166410254502865048}
   m_Layer: 3
   m_Name: PLAYER1
-  m_TagString: Untagged
+  m_TagString: Player1
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -378,12 +378,15 @@ MonoBehaviour:
   currentSpeed: 0
   walkSpeed: 3
   dashSpeed: 6
+  multiplier: 1
   dashDuration: 0.5
   dashCooldown: 3
   chronoDashCooldown: 0
   AttackArea: {fileID: 808864521994373761}
-  LifePoints: 300
+  UltiPoints: 3
+  MaxUltiPoints: 10
   HitDuration: 3
+  playerPoints: {fileID: 11400000, guid: c398320eca9a6174caff11cf1495fdd5, type: 2}
   MoveDirection: {x: 0, y: 0}
   IsAttacking: 0
   IsDead: 0

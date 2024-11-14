@@ -23,7 +23,11 @@ namespace Assets.Scripts.Player.States
             }
             else
             {
-                if (MachinePlayer.DashPressed)
+                if (MachinePlayer.IsUlting)
+                {
+                    MachinePlayer.ChangeState(StateMachinePlayer.STATE_ULTI);
+                }
+                else if (MachinePlayer.DashPressed)
                 {
                     MachinePlayer.ChangeState(StateMachinePlayer.STATE_DASH);
                 }

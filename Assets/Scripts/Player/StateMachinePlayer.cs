@@ -8,6 +8,8 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using Assets.Scripts.ScriptableObjects;
+using UnityEngine.UI;
 
 namespace Assets.Scripts.Player
 {
@@ -15,14 +17,20 @@ namespace Assets.Scripts.Player
     {
 
         #region Unity Editor Properties
+        [Header("Player")]
+        //public PlayerLifePoints.Player player;
+
         [Header("Speeds")]
         public float currentSpeed = 0f;
         public float walkSpeed = 3f;
         public float dashSpeed = 6f;
+        public float multiplier = 1f;
 
         [Header("Times")]
         public float dashDuration = 0.2f;
         public float dashCooldown = 2f;
+        public float UltiDuration = 3f;
+
         // Il faut que la valeur d'init de chronoDashCooldown soit la même que dashCooldown pour éviter d'avoir un cooldown au lancement du jeu
         [HideInInspector] public float chronoDashCooldown = 2f;
         [HideInInspector] private float chronoHit = 0f;
@@ -30,17 +38,38 @@ namespace Assets.Scripts.Player
         /// Représente le collider d'attack
         /// </summary>
         [HideInInspector] public GameObject AttackArea;
+        [HideInInspector] public GameObject AttackAreaUlti;
 
-        public int LifePoints = 3;
+        [Header("Life")]
+        public float LifePoints
+        {
+            get
+            {
+                return playerPoints.LifePoints;
+            }
+            set
+            {
+                playerPoints.LifePoints = value;
+
+                if (playerPoints.LifePoints > playerPoints.MaxLifePoints)
+                    playerPoints.LifePoints = playerPoints.MaxLifePoints;
+            }
+        }
+
+        [Header("Ulti")]
+        public float UltiPoints => playerPoints.UltiPoints;
+        public float MaxUltiPoints => playerPoints.MaxUltiPoints;
+
         /// <summary>
         /// Détermine la durée durant laquelle le perso reste dans l'état 'Hit' après avoir pris un dégat
         /// </summary>
         public float HitDuration = 3f;
 
         public SpriteRenderer SpritePlayer => GetComponentInChildren<SpriteRenderer>();
-
         public Animator Animator => GetComponentInChildren<Animator>();
-        private InputAction inputAction;
+        public PlayerPoints playerPoints;
+
+
         #endregion
 
         #region Properties 
@@ -56,6 +85,7 @@ namespace Assets.Scripts.Player
         public const string STATE_DEAD = nameof(StateDead);
         public const string STATE_ATTACK = nameof(StateAttack);
         public const string STATE_DASH = nameof(StateDash);
+        public const string STATE_ULTI = nameof(StateUlti);
 
         /// <summary>
         /// Le State actuel du joueur
@@ -67,6 +97,7 @@ namespace Assets.Scripts.Player
         [HideInInspector] public bool IsMoving => MoveDirection != Vector2.zero;
         [HideInInspector] public bool IsAttacking;
         [HideInInspector] public bool IsDead;
+        [HideInInspector] public bool IsUlting;
         public bool IsHit;
 
         [HideInInspector] public bool DashPressed;
@@ -84,27 +115,25 @@ namespace Assets.Scripts.Player
             _states.Add(STATE_ATTACK, new StateAttack(this));
             _states.Add(STATE_DEAD, new StateDead(this));
             _states.Add(STATE_DASH, new StateDash(this));
+            _states.Add(STATE_ULTI, new StateUlti(this));
 
             ChangeState(nameof(StateIdle));
 
             AttackArea = transform.Find("Attack").gameObject;
+            AttackAreaUlti = transform.Find("AttackUlti").gameObject;
+            LifePoints = playerPoints.MaxLifePoints;
         }
 
         // Update is called once per frame
         private void Update()
         {
             currentState?.OnUpdate();
-
-            //IsAttacking = inputAction.WasPerformedThisFrame();
-            //Debug.Log(animator.GetCurrentAnimatorStateInfo(0).normalizedTime);
-            //if (IsAttacking && animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 1)
-            //    IsAttacking = false;
         }
 
         private void FixedUpdate()
         {
             currentState?.OnFixedUpdate();
-            Rb2dPlayer.linearVelocity = MoveDirection * currentSpeed;
+            Rb2dPlayer.linearVelocity = currentSpeed * multiplier * MoveDirection;
 
             // Animations
             Animator.SetBool("IsAttacking", IsAttacking);
@@ -158,11 +187,6 @@ namespace Assets.Scripts.Player
             }
         }
 
-        private void OnCollisionEnter2D(Collision2D collision)
-        {
-
-        }
-
         private void OnTriggerEnter2D(Collider2D collision)
         {
             if (collision.CompareTag("EnemyAttack"))
@@ -170,15 +194,8 @@ namespace Assets.Scripts.Player
                 if (!IsHit)
                 {
                     LifePoints--;
-
-                    if (LifePoints <= 0)
-                    {
-                        IsDead = true;
-                    }
-                    else
-                    {
-                        IsHit = true;
-                    }
+                    IsDead = playerPoints.LifePoints <= 0;
+                    IsHit = playerPoints.LifePoints > 0;
                 }
             }
             // Même si le code AoeAttack est similaire à EnemyAttack, je laisse son if pour si on veut un étourdissement dû à l'aoe
@@ -187,17 +204,29 @@ namespace Assets.Scripts.Player
                 if (!IsHit)
                 {
                     LifePoints--;
-
-                    if (LifePoints <= 0)
-                    {
-                        IsDead = true;
-                    }
-                    else
-                    {
-                        IsHit = true;
-                    }
+                    IsDead = playerPoints.LifePoints <= 0;
+                    IsHit = playerPoints.LifePoints > 0;
                 }
             }
+            else if (collision.CompareTag("RedCan"))
+            {
+                LifePoints += 2;
+            }
+            else if (collision.CompareTag("BlueCan"))
+            {
+                playerPoints.UltiPoints = MaxUltiPoints;
+            }
+            else if (collision.CompareTag("GreenCan"))
+            {
+                StartCoroutine(Speedy());
+            }
+        }
+
+        private IEnumerator Speedy()
+        {
+            multiplier = 2;
+            yield return new WaitForSeconds(10f);
+            multiplier = 1;
         }
 
         #endregion
@@ -224,6 +253,7 @@ namespace Assets.Scripts.Player
                 transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
             }
         }
+
         #endregion
 
         #region Events
@@ -237,6 +267,21 @@ namespace Assets.Scripts.Player
             else if (context.phase == InputActionPhase.Canceled)
             {
                 IsAttacking = false;
+            }
+        }
+
+        public void OnUlti(InputAction.CallbackContext context)
+        {
+            if (context.phase == InputActionPhase.Started) // Input en mode "tap"
+            {
+                if (playerPoints.UltiPoints >= playerPoints.MaxUltiPoints)
+                {
+                    IsUlting = true;
+                }
+            }
+            else if (context.phase == InputActionPhase.Canceled)
+            {
+                IsUlting = false;
             }
         }
 

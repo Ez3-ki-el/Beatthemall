@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using UnityEngine;
+﻿using Assets.Scripts.Enemies.CasualEnemy;
 
 namespace Assets.Scripts.Enemies.CasualEnemy
 {
@@ -14,29 +8,28 @@ namespace Assets.Scripts.Enemies.CasualEnemy
 
         public override void OnEnter()
         {
+
             MachineEnemy.IsDead = true;
             MachineEnemy.Animator.SetBool("IsDead", MachineEnemy.IsDead);
-            GameObject.Destroy(MachineEnemy.gameObject, 2f);
+            MachineEnemy.OnDestroy();  // Appel direct de OnDestroy
         }
 
         public override void OnUpdate()
         {
-
         }
 
         public override void OnExit()
         {
-
         }
 
         public override void OnFixedUpdate()
         {
-
         }
 
         public override void OnTriggerEnter()
         {
-
         }
+
+
     }
 }

@@ -238,6 +238,7 @@ MonoBehaviour:
   AttackArea: {fileID: 8321473909081232176}
   Player1Transform: {fileID: 0}
   Player2Transform: {fileID: 0}
+  hitFX: {fileID: 5454363502964398162, guid: 3b6d3b8a3e851a643aef0c011d586148, type: 3}
   PlayerAggro: {fileID: 0}
   DistanceToPlayerAggro: 0
   IsDead: 0

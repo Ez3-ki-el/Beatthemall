@@ -27,7 +27,6 @@ namespace Assets.Scripts.Enemies.CasualEnemy
         [HideInInspector]  public Transform Player1Transform;
         [AllowsNull]
         [HideInInspector]  public Transform Player2Transform;
-
         public Animator Animator => GetComponentInChildren<Animator>();
         public SpriteRenderer SpriteEnemy => GetComponentInChildren<SpriteRenderer>();
         /// <summary>

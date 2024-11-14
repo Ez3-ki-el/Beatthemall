@@ -64,7 +64,7 @@ public class CharacterSelection : MonoBehaviour
 
         // Déplacer le curseur au-dessus du bouton en ajustant la position verticale
         Vector3 newPosition = buttonRect.position;
-        newPosition.y += buttonRect.rect.height / 2 + 80f; // Ajuster la position avec la hauteur du bouton
+        newPosition.y += buttonRect.rect.height / 2 + 100f; // Ajuster la position avec la hauteur du bouton
 
         cursor.transform.position = newPosition;
 
@@ -107,16 +107,18 @@ public class CharacterSelection : MonoBehaviour
     {
         if (!player1Confirmed && (numeroPersonnage - 1) == player1Index)
         {
-            player1Confirmed = true;
             characterButtons[player1Index].GetComponent<Button>().interactable = false;
-            player1Cursor.SetActive(false);
+            player1Confirmed = true;
+            player1Cursor.GetComponent<Image>().color = Color.blue;
+            player1Input.enabled = false;
             Debug.Log("Le joueur 1 a choisi le personnage " + numeroPersonnage);
         }
         else if (!player2Confirmed && (numeroPersonnage - 1) == player2Index)
         {
             characterButtons[player2Index].GetComponent<Button>().interactable = false;
             player2Confirmed = true;
-            player2Cursor.SetActive(false);
+            player2Cursor.GetComponent<Image>().color = Color.red;
+            player2Input.enabled = false;
             Debug.Log("Le joueur 2 a choisi le personnage " + numeroPersonnage);
         }
          }

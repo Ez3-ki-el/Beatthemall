@@ -13,6 +13,8 @@ TagManager:
   - GreenCan
   - Player1
   - Player2
+  - Player1Ulti
+  - Player2Ulti
   layers:
   - Default
   - TransparentFX

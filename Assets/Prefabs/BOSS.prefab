@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5601994993531828722}
   - component: {fileID: 8115025159354464688}
   - component: {fileID: 2407643260073948095}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: BOSS
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -200,7 +200,7 @@ GameObject:
   - component: {fileID: 8012499161566073883}
   - component: {fileID: 1482042847480484850}
   - component: {fileID: 7411265900382185949}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Graphics
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -310,7 +310,7 @@ GameObject:
   - component: {fileID: 1410267989309250373}
   - component: {fileID: 6664622833565918543}
   - component: {fileID: 976880652883806912}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: AttackAOE
   m_TagString: AoeAttack
   m_Icon: {fileID: 0}
@@ -467,7 +467,7 @@ GameObject:
   m_Component:
   - component: {fileID: 978420993174498523}
   - component: {fileID: 7750729616219529766}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Attack
   m_TagString: EnemyAttack
   m_Icon: {fileID: 0}

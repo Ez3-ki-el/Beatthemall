@@ -12,6 +12,7 @@ namespace Assets.Scripts.Enemies.CasualEnemy
         public override void OnEnter()
         {
             MachineEnemy.CurrentSpeed = 0f;
+            MachineEnemy.Animator.SetFloat("Speed", MachineEnemy.CurrentSpeed);
         }
 
         public override void OnUpdate()

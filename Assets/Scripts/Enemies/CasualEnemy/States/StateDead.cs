@@ -1,4 +1,8 @@
-﻿using Assets.Scripts.Enemies.CasualEnemy;
+﻿using System.Linq;
+
+using Assets.Scripts.Enemies.CasualEnemy;
+
+using UnityEngine;
 
 namespace Assets.Scripts.Enemies.CasualEnemy
 {
@@ -11,6 +15,7 @@ namespace Assets.Scripts.Enemies.CasualEnemy
 
             MachineEnemy.IsDead = true;
             MachineEnemy.Animator.SetBool("IsDead", MachineEnemy.IsDead);
+            MachineEnemy.GetComponents<BoxCollider2D>().ToList().ForEach(x => x.isTrigger = true);
             MachineEnemy.OnDestroy();  // Appel direct de OnDestroy
         }
 

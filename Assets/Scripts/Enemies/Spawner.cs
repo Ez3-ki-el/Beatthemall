@@ -7,17 +7,21 @@ using UnityEngine;
 public class Spawner : MonoBehaviour
 {
     public GameObject enemyPrefab;
-    public float spawnInterval = 1.0f; // Intervalle entre chaque spawn d'ennemi dans une vague
-    public int enemiesPerWave = 4;     // Nombre d'ennemis par vague
-    public int totalSpawnEnemy = 12;   // Nombre total d'ennemis
-    public int maxSpawnEnemyParallel = 3; // Nombre maximum d'ennemis simultanés
+    public GameObject bossPrefab;          // Prefab du boss
+    public float minSpawnInterval = 0.5f;  // Intervalle minimal entre chaque spawn d'ennemi
+    public float maxSpawnInterval = 2.0f;  // Intervalle maximal entre chaque spawn d'ennemi
+    public int enemiesPerWave = 4;         // Nombre d'ennemis par vague
+    public int totalSpawnEnemy = 12;       // Nombre total d'ennemis
+    public int maxSpawnEnemyParallel = 3;  // Nombre maximum d'ennemis simultanés
 
     public Transform leftSpawnPoint;
     public Transform rightSpawnPoint;
+    public Transform bossSpawnPoint;       // Point de spawn du boss
 
     private int currentSpawnedEnemies = 0;
     private int totalSpawned = 0;
-    private bool spawnFromRight = true; // Commence à spawner à droite
+    private bool spawnFromRight = true;    // Commence à spawner à droite
+    private bool bossSpawned = false;      // Indique si le boss a été spawné
 
     void Start()
     {
@@ -28,7 +32,7 @@ public class Spawner : MonoBehaviour
     {
         while (totalSpawned < totalSpawnEnemy)
         {
-            // Lancer une vague de 4 ennemis
+            // Lancer une vague d'ennemis
             for (int i = 0; i < enemiesPerWave && totalSpawned < totalSpawnEnemy; i++)
             {
                 if (currentSpawnedEnemies < maxSpawnEnemyParallel)
@@ -36,28 +40,45 @@ public class Spawner : MonoBehaviour
                     SpawnEnemy();
                     totalSpawned++;
                 }
-                yield return new WaitForSeconds(spawnInterval);
+
+                // Intervalle aléatoire entre chaque ennemi dans une vague
+                float randomInterval = Random.Range(minSpawnInterval, maxSpawnInterval);
+                yield return new WaitForSeconds(randomInterval);
             }
 
             // Alterne le point de spawn entre droite et gauche après chaque vague
             spawnFromRight = !spawnFromRight;
 
-            // Attente entre les vagues
-            yield return new WaitForSeconds(spawnInterval * 4); 
+            yield return new WaitForSeconds(maxSpawnInterval * 4);
         }
     }
 
     private void SpawnEnemy()
     {
+        // Détermine le point de spawn
         Transform spawnPoint = spawnFromRight ? rightSpawnPoint : leftSpawnPoint;
         GameObject newEnemy = Instantiate(enemyPrefab, spawnPoint.position, Quaternion.identity);
+
         currentSpawnedEnemies++;
 
+        // Abonnement à l'événement de destruction de l'ennemi
         newEnemy.GetComponent<StateMachineEnemy>().OnEnemyDestroyed += HandleEnemyDestroyed;
     }
 
     private void HandleEnemyDestroyed()
     {
         currentSpawnedEnemies--;
+
+        // Vérifie si tous les ennemis ont été spawnés et détruits
+        if (totalSpawned >= totalSpawnEnemy && currentSpawnedEnemies <= 0 && !bossSpawned)
+        {
+            SpawnBoss();
+        }
+    }
+
+    private void SpawnBoss()
+    {
+        Instantiate(bossPrefab, bossSpawnPoint.position, Quaternion.identity);
+        bossSpawned = true;  
     }
 }

@@ -191,21 +191,27 @@ namespace Assets.Scripts.Player
         {
             if (collision.CompareTag("EnemyAttack"))
             {
-                if (!IsHit)
+                if (!IsUlting) // S'il fait son ulti il est invincible
                 {
-                    LifePoints--;
-                    IsDead = playerPoints.LifePoints <= 0;
-                    IsHit = playerPoints.LifePoints > 0;
+                    if (!IsHit)
+                    {
+                        LifePoints--;
+                        IsDead = playerPoints.LifePoints <= 0;
+                        IsHit = playerPoints.LifePoints > 0;
+                    }
                 }
             }
             // Même si le code AoeAttack est similaire à EnemyAttack, je laisse son if pour si on veut un étourdissement dû à l'aoe
             else if (collision.CompareTag("AoeAttack"))
             {
-                if (!IsHit)
+                if (!IsUlting) // S'il fait son ulti il est invincible
                 {
-                    LifePoints--;
-                    IsDead = playerPoints.LifePoints <= 0;
-                    IsHit = playerPoints.LifePoints > 0;
+                    if (!IsHit)
+                    {
+                        LifePoints--;
+                        IsDead = playerPoints.LifePoints <= 0;
+                        IsHit = playerPoints.LifePoints > 0;
+                    }
                 }
             }
             else if (collision.CompareTag("RedCan"))

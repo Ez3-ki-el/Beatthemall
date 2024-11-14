@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 5669429068602090781}
   - component: {fileID: 1976417625490581807}
   - component: {fileID: 9223303017397380629}
+  - component: {fileID: 4685982639031983984}
   m_Layer: 0
   m_Name: VENDING_MACHINE
   m_TagString: Untagged
@@ -204,3 +205,19 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.5208645, y: 0.79207945}
   m_EdgeRadius: 0
+--- !u!114 &4685982639031983984
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8806534962974146582}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fcafbed18495f4146916ddae88b7222d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  typeItem: 2
+  CAN_BLUE: {fileID: 4293695616179634468, guid: 186b6ad652d118a488453fa1e0bdaa34, type: 3}
+  CAN_RED: {fileID: 3218660956010954056, guid: 02f4065049363a34cb0147f2e00d65f9, type: 3}
+  CAN_GREEN: {fileID: 3316853096969897139, guid: 1d67b1f5c4306b84aa3eee97aa2cda36, type: 3}

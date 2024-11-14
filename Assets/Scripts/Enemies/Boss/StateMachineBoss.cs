@@ -101,8 +101,8 @@ namespace Assets.Scripts.Enemies.Boss
             ChangeState(nameof(StateIdle));
             CooldownAOE = Random.Range(MinRangeCooldownAoe, MaxRangeCooldownAoe);
 
-            Player1 = GameObject.Find("Player1");
-            Player2 = GameObject.Find("Player2");
+            Player1 = GameObject.Find("PLAYER1");
+            Player2 = GameObject.Find("PLAYER2");
 
             MachinePlayer1 = Player1.GetComponent<StateMachinePlayer>();
 
@@ -191,6 +191,19 @@ namespace Assets.Scripts.Enemies.Boss
                 {
                     IsHit = true;
                     Debug.Log("hit by " + collision.tag);
+                }
+            }
+            else if (collision.CompareTag("Player1Ulti") || collision.CompareTag("Player2Ulti"))
+            {
+                LifePoints--;
+
+                if (LifePoints <= 0)
+                {
+                    IsDead = true;
+                }
+                else
+                {
+                    IsHit = true;
                 }
             }
         }

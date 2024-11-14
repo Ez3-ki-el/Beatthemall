@@ -267,7 +267,7 @@ MonoBehaviour:
     m_ActionName: UI2/TrackedDeviceOrientation
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Gamepad
-  m_DefaultActionMap: Player2
+  m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
 --- !u!1 &1878379956457274317
@@ -472,7 +472,7 @@ GameObject:
   - component: {fileID: 7719883273836451954}
   m_Layer: 0
   m_Name: AttackUlti
-  m_TagString: AoeAttack
+  m_TagString: Player2Ulti
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

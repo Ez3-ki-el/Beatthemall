@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-using Unity.VisualScripting;
+using Assets.Scripts.ScriptableObjects;
 
 using UnityEngine;
 
@@ -20,9 +20,8 @@ namespace Assets.Scripts.Enemies.CasualEnemy
         public GameObject AttackArea;
 
         [HideInInspector] public Transform Player1Transform;
-        [AllowsNull]
         [HideInInspector] public Transform Player2Transform;
-        
+
         public Animator Animator => GetComponentInChildren<Animator>();
         public SpriteRenderer SpriteEnemy => GetComponentInChildren<SpriteRenderer>();
         /// <summary>
@@ -81,8 +80,10 @@ namespace Assets.Scripts.Enemies.CasualEnemy
 
             ChangeState(nameof(StateIdle));
 
-            Player1Transform = GameObject.Find("PLAYER1(Clone)").transform;
-            Player2Transform = GameObject.Find("PLAYER2(Clone)")?.transform;
+
+            Player1Transform = GameObject.Find("PLAYER1").transform;
+
+            Player2Transform = GameObject.Find("PLAYER2")?.transform;
 
 
         }
@@ -141,7 +142,24 @@ namespace Assets.Scripts.Enemies.CasualEnemy
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
+            Debug.Log(collision.tag);
+            Debug.Log(collision.name);
             if (collision.CompareTag("Player1Attack") || collision.CompareTag("Player2Attack"))
+            {
+                LifePoints--;
+
+                if (LifePoints <= 0)
+                {
+                    IsDead = true;
+                    Debug.Log("dead by " + collision.tag);
+                }
+                else
+                {
+                    IsHit = true;
+                    Debug.Log("hit by " + collision.tag);
+                }
+            }
+            else if (collision.CompareTag("Player1Ulti") || collision.CompareTag("Player2Ulti"))
             {
                 LifePoints--;
 

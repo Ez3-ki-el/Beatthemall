@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 1819208517905772495}
   - component: {fileID: 1582575937069865098}
   - component: {fileID: 3882257317787359556}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: NEWSPAPER_STAND
   m_TagString: Untagged
   m_Icon: {fileID: 0}

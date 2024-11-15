@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -117,6 +118,11 @@ namespace Assets.Scripts.Enemies.CasualEnemy
             hitCoroutine = null;
         }
 
+        public void ExposeStartCoroutine(IEnumerator function)
+        {
+            StartCoroutine(function);
+        }
+
         private void HitOrNotHit()
         {
             // Gestion du hit
@@ -161,7 +167,7 @@ namespace Assets.Scripts.Enemies.CasualEnemy
             }
             else if (collision.CompareTag("Player1Ulti") || collision.CompareTag("Player2Ulti"))
             {
-                LifePoints--;
+                LifePoints -=2;
 
                 if (LifePoints <= 0)
                 {

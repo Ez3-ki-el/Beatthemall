@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2229063591053305477}
   - component: {fileID: 4057291148890083810}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -283,7 +283,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CurrentSpeed: 0
   WalkSpeed: 2
-  LifePoints: 3
+  LifePoints: 10
   AttackArea: {fileID: 9079787306157640259}
   AttackAreaAOE: {fileID: 8719318164532696035}
   Player1: {fileID: 0}
@@ -633,7 +633,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &978420993174498523
 Transform:
   m_ObjectHideFlags: 0

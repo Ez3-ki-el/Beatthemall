@@ -28,7 +28,7 @@ namespace Assets.Scripts.Player
 
         [Header("Times")]
         public float dashDuration = 0.2f;
-        public float dashCooldown = 2f;
+        public float dashCooldown = 1.5f;
         public float UltiDuration = 3f;
 
         // Il faut que la valeur d'init de chronoDashCooldown soit la même que dashCooldown pour éviter d'avoir un cooldown au lancement du jeu
@@ -67,6 +67,7 @@ namespace Assets.Scripts.Player
 
         public SpriteRenderer SpritePlayer => GetComponentInChildren<SpriteRenderer>();
         public Animator Animator => GetComponentInChildren<Animator>();
+        public Animator AnimatorHit;
         [HideInInspector] public GameObject Dash;
         public PlayerPoints playerPoints;
 
@@ -104,6 +105,8 @@ namespace Assets.Scripts.Player
         [HideInInspector] public bool DashPressed;
         [HideInInspector] public bool DashAvailable;
         [HideInInspector] public bool CanDash => DashPressed && DashAvailable;
+
+        public AudioSource AudioSource;
         #endregion
 
         #region MonoBehaviour 
@@ -191,6 +194,7 @@ namespace Assets.Scripts.Player
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
+            Debug.LogWarning(collision.name);
             if (collision.CompareTag("EnemyAttack"))
             {
                 if (!IsUlting) // S'il fait son ulti il est invincible
@@ -232,7 +236,7 @@ namespace Assets.Scripts.Player
 
         private IEnumerator Speedy()
         {
-            multiplier = 2;
+            multiplier = 1.5f;
             yield return new WaitForSeconds(10f);
             multiplier = 1;
         }

@@ -17,6 +17,7 @@ namespace Assets.Scripts.Enemies.Boss
             MachineBoss.IsDead = true;
             MachineBoss.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
             MachineBoss.Animator.SetBool("IsDead", MachineBoss.IsDead);
+            MachineBoss.GetComponentsInChildren<Rigidbody2D>().ToList().ForEach(x => x.constraints = RigidbodyConstraints2D.FreezeAll);
             GameObject.Destroy(MachineBoss.gameObject, 2f);
 
         }

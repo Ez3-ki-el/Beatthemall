@@ -23,6 +23,9 @@ namespace Assets.Scripts.Player.States
 
             MachinePlayer.Animator.SetInteger("CounterAttack", currentAttackCounter);
             MachinePlayer.AttackArea.SetActive(true);
+            MachinePlayer.AudioSource.pitch = UnityEngine.Random.Range(0.7f, 1f);
+            MachinePlayer.AudioSource.volume = UnityEngine.Random.Range(0.9f, 1f);
+            MachinePlayer.AnimatorHit.SetBool("IsHitting", true);
         }
 
         public override void OnUpdate()
@@ -65,6 +68,7 @@ namespace Assets.Scripts.Player.States
             Debug.LogWarning("FIN ATTACK");
             MachinePlayer.AttackArea.SetActive(false);
             MachinePlayer.IsAttacking = false;
+            MachinePlayer.AnimatorHit.SetBool("IsHitting", false);
         }
 
         public override void OnFixedUpdate()

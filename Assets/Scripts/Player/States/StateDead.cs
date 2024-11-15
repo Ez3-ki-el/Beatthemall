@@ -15,6 +15,8 @@ namespace Assets.Scripts.Player.States
         public override void OnEnter()
         {
             MachinePlayer.Animator.SetBool("IsDead", MachinePlayer.IsDead);
+            MachinePlayer.GetComponentsInChildren<Rigidbody2D>().ToList().ForEach(x => x.constraints = RigidbodyConstraints2D.FreezeAll);
+
             GameObject.Destroy(MachinePlayer.gameObject, 2f);
         }
 

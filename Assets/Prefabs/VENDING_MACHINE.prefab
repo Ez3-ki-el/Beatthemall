@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 9223303017397380629}
   - component: {fileID: 4685982639031983984}
   - component: {fileID: 944613181187223405}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: VENDING_MACHINE
   m_TagString: Untagged
   m_Icon: {fileID: 0}

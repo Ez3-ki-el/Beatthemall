@@ -18,7 +18,7 @@ namespace Assets.Scripts.Enemies.Boss
         public float WalkSpeed = 2f;
 
 
-        public int LifePoints = 3;
+        public int LifePoints = 10;
 
         public GameObject AttackArea;
         public GameObject AttackAreaAOE;
@@ -118,6 +118,8 @@ namespace Assets.Scripts.Enemies.Boss
         {
             CalculAggro();
 
+            HitOrNotHit();
+
             if (ChronoAOE >= CooldownAOE)
             {
                 IsAttackingAOE = true;
@@ -197,7 +199,7 @@ namespace Assets.Scripts.Enemies.Boss
             }
             else if (collision.CompareTag("Player1Ulti") || collision.CompareTag("Player2Ulti"))
             {
-                LifePoints--;
+                LifePoints -= 2;
 
                 if (LifePoints <= 0)
                 {

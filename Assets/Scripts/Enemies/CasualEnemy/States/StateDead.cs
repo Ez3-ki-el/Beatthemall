@@ -14,9 +14,10 @@ namespace Assets.Scripts.Enemies.CasualEnemy
         {
 
             MachineEnemy.IsDead = true;
+            MachineEnemy.AttackArea.SetActive(false);
             MachineEnemy.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
             MachineEnemy.Animator.SetBool("IsDead", MachineEnemy.IsDead);
-            MachineEnemy.GetComponents<BoxCollider2D>().ToList().ForEach(x => x.isTrigger = true);
+            MachineEnemy.GetComponentsInChildren<BoxCollider2D>().ToList().ForEach(x => x.isTrigger = true);
             MachineEnemy.OnDestroy();  // Appel direct de OnDestroy
         }
 

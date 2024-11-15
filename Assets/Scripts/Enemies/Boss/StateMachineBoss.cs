@@ -52,11 +52,13 @@ namespace Assets.Scripts.Enemies.Boss
         [HideInInspector] public bool IsAttacking;
         [HideInInspector] public bool IsAttackingAOE;
         [HideInInspector] public bool IsHit;
-        [HideInInspector] public float AttackRange = 1.3f;
+        public float AttackRange = 1f;
         [HideInInspector] private float chronoHit = 0f;
         [HideInInspector] public Rigidbody2D Rb2dEnemy => GetComponent<Rigidbody2D>();
 
         public Animator Animator => GetComponentInChildren<Animator>();
+        public Animator AnimatorAoe;
+
         public SpriteRenderer SpriteBoss => GetComponentInChildren<SpriteRenderer>();
 
 

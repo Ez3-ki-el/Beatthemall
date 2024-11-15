@@ -17,6 +17,7 @@ namespace Assets.Scripts.Player.States
         {
             MachinePlayer.currentSpeed = MachinePlayer.dashSpeed;
             MachinePlayer.Animator.SetFloat("Speed", MachinePlayer.dashSpeed);
+            MachinePlayer.Dash.SetActive(true);
             chrono = 0f;
         }
 
@@ -53,6 +54,7 @@ namespace Assets.Scripts.Player.States
         public override void OnExit()
         {
             MachinePlayer.currentSpeed = MachinePlayer.walkSpeed * MachinePlayer.multiplier;
+            MachinePlayer.Dash.SetActive(false);
         }
 
         public override void OnFixedUpdate()

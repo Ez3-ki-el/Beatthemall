@@ -34,7 +34,7 @@ namespace Assets.Scripts.Enemies.CasualEnemy
         [HideInInspector] public bool IsMoving => Rb2dEnemy.linearVelocity != Vector2.zero;
         [HideInInspector] public bool IsAttacking;
         [HideInInspector] public bool IsHit;
-        [HideInInspector] public float AttackRange = 3f;
+        public float AttackRange = 0.7f;
         [HideInInspector] public float chronoDashCooldown = 2f;
         [HideInInspector] private float chronoHit = 0f;
         [HideInInspector] public Rigidbody2D Rb2dEnemy => GetComponent<Rigidbody2D>();

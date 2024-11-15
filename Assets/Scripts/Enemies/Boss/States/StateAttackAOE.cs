@@ -13,6 +13,7 @@ namespace Assets.Scripts.Enemies.Boss
 
             MachineBoss.Rb2dEnemy.linearVelocity = Vector2.zero;
             MachineBoss.Animator.SetBool("IsHeavyAttacking", true);
+            MachineBoss.AnimatorAoe.SetBool("IsAttackAoe", true);
         }
 
         public override void OnUpdate()
@@ -54,6 +55,7 @@ namespace Assets.Scripts.Enemies.Boss
         public override void OnExit()
         {
             MachineBoss.Animator.SetBool("IsHeavyAttacking", false);
+            MachineBoss.AnimatorAoe.SetBool("IsAttackAoe", false);
         }
 
         public override void OnFixedUpdate()

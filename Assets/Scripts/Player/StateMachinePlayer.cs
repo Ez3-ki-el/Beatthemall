@@ -67,6 +67,7 @@ namespace Assets.Scripts.Player
 
         public SpriteRenderer SpritePlayer => GetComponentInChildren<SpriteRenderer>();
         public Animator Animator => GetComponentInChildren<Animator>();
+        [HideInInspector] public GameObject Dash;
         public PlayerPoints playerPoints;
 
 
@@ -121,6 +122,7 @@ namespace Assets.Scripts.Player
 
             AttackArea = transform.Find("Attack").gameObject;
             AttackAreaUlti = transform.Find("AttackUlti").gameObject;
+            Dash = transform.Find("Dash").gameObject;
             LifePoints = playerPoints.MaxLifePoints;
         }
 

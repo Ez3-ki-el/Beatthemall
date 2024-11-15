@@ -16,10 +16,12 @@ public class ItemDestroyable : MonoBehaviour
     public GameObject CAN_RED;
     public GameObject CAN_GREEN;
     public Animator animator;
+    public AudioSource AudioSource;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         animator = gameObject.GetComponent<Animator>();
+        AudioSource = gameObject.GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -51,9 +53,13 @@ public class ItemDestroyable : MonoBehaviour
                 default:
                     break;
             }
-            if (can != null && animator.GetBool("IsBroken") == false)
-                Instantiate(can, new Vector3(transform.position.x, transform.position.y-.5f, transform.position.z), Quaternion.identity);
+            if (can != null && animator.GetBool("IsBroken") == false) 
+            { 
+                Instantiate(can, new Vector3(transform.position.x, transform.position.y - .5f, transform.position.z), Quaternion.identity);
+                AudioSource.Play();
+            }
             animator.SetBool("IsBroken", true);
+
         }
 
     }

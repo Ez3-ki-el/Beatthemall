@@ -10,7 +10,8 @@ public class Timer : MonoBehaviour
     // Variables pour la gestion du temps
     private float timeRemaining = 0f;
     public bool countDown;
-    private bool timerIsRunning = false;
+    public bool timerIsRunning = false;
+
 
     // Définir un temps initial, par exemple 60 secondes
     public float startTime = 0f;

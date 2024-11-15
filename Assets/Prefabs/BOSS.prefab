@@ -142,7 +142,7 @@ MonoBehaviour:
   IsAttackingAOE: 0
   IsHit: 0
   AttackRange: 1
-  AnimatorAoe: {fileID: 0}
+  AnimatorAoe: {fileID: 6455390853505981005}
   HitDuration: 3
 --- !u!61 &2407643260073948095
 BoxCollider2D:
@@ -317,7 +317,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1410267989309250373
 Transform:
   m_ObjectHideFlags: 0
@@ -614,6 +614,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 805f560f93a66f8408399b7f5a8fbb86, type: 3}
+--- !u!95 &6455390853505981005 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 311727326513455652, guid: 805f560f93a66f8408399b7f5a8fbb86, type: 3}
+  m_PrefabInstance: {fileID: 6756909746543556713}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8375553955698737484 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3026045592658835749, guid: 805f560f93a66f8408399b7f5a8fbb86, type: 3}

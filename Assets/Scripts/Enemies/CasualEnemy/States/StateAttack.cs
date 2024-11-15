@@ -14,6 +14,7 @@ namespace Assets.Scripts.Enemies.CasualEnemy
 
         public override void OnEnter()
         {
+      
             // Gestion du compteur d'attaque pour changer les animations
             if (currentAttackCounter == maxAttackCounter)
                 currentAttackCounter = 0;
@@ -58,6 +59,7 @@ namespace Assets.Scripts.Enemies.CasualEnemy
 
         public override void OnExit()
         {
+     
             MachineEnemy.IsAttacking = false;
             MachineEnemy.AttackArea.SetActive(false);
             MachineEnemy.Animator.SetBool("IsAttacking", false);

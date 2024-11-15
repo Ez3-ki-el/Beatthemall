@@ -15,6 +15,7 @@ namespace Assets.Scripts.Enemies.Boss
         public override void OnEnter()
         {
             MachineBoss.IsDead = true;
+            MachineBoss.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
             MachineBoss.Animator.SetBool("IsDead", MachineBoss.IsDead);
             GameObject.Destroy(MachineBoss.gameObject, 2f);
 

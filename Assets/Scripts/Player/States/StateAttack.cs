@@ -13,6 +13,7 @@ namespace Assets.Scripts.Player.States
 
         public override void OnEnter()
         {
+            Debug.LogWarning("DEBUT ATTACK");
             // Gestion du compteur d'attaque pour changer les animations
             if (currentAttackCounter == maxAttackCounter)
                 currentAttackCounter = 0;
@@ -61,6 +62,7 @@ namespace Assets.Scripts.Player.States
 
         public override void OnExit()
         {
+            Debug.LogWarning("FIN ATTACK");
             MachinePlayer.AttackArea.SetActive(false);
             MachinePlayer.IsAttacking = false;
         }

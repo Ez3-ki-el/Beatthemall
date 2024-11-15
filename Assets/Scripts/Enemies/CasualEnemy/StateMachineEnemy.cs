@@ -37,6 +37,7 @@ namespace Assets.Scripts.Enemies.CasualEnemy
         public float AttackRange = 0.7f;
         [HideInInspector] public float chronoDashCooldown = 2f;
         [HideInInspector] private float chronoHit = 0f;
+
         [HideInInspector] public Rigidbody2D Rb2dEnemy => GetComponent<Rigidbody2D>();
         /// <summary>
         /// D�termine la dur�e durant laquelle le perso reste dans l'�tat 'Hit' apr�s avoir pris un d�gat
@@ -142,8 +143,7 @@ namespace Assets.Scripts.Enemies.CasualEnemy
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
-            Debug.Log(collision.tag);
-            Debug.Log(collision.name);
+         
             if (collision.CompareTag("Player1Attack") || collision.CompareTag("Player2Attack"))
             {
                 LifePoints--;

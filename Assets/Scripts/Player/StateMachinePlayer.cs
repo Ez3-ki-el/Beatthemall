@@ -243,7 +243,6 @@ namespace Assets.Scripts.Player
 
         public void ChangeState(string stateName)
         {
-            Debug.Log("Changement de state pour : " + stateName);
             currentState?.OnExit();
             currentState = _states[stateName];
             currentState.OnEnter();

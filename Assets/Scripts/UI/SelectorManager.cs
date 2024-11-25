@@ -2,8 +2,6 @@ using System;
 
 using Unity.Cinemachine;
 
-using UnityEditor.U2D.Animation;
-
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
